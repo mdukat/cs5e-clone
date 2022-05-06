@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+		<title>CS5e</title>
+		<meta charset="UTF-8">
+		<link rel="icon" href="{{ url_for('static', filename = 'favicon.png') }}">
+		<link rel="manifest" href="{{ url_for('static', filename = 'manifest.json') }}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'util.css') }}">
+		<style>
+			html {
+				margin: 0px;
+				padding: 0px;
+				box-sizing: border-box;
+			}
+			*, *::before, *::after { box-sizing: inherit; }
+			body {
+				margin: 0px;
+				padding: 0px;
+				font-family: 'Ubuntu', sans-serif;
+				font-size: 16px;
+				color: black;
+				background-color: white;
+				text-size-adjust: none;
+				-webkit-text-size-adjust: none;
+				-moz-text-size-adjust: none;
+			}
+			body.is-mobile { font-size: 32px; }
+			div,
+			form {
+				clear: both;
+				float: none;
+				margin: 0px;
+				padding: 0px;
+				width: auto;
+			}
+			span {
+				margin: 0px;
+				padding: 0px;
+			}
+			h1, h2, h3 { margin: 1rem 0px 0.5rem; }
+			h1, h1 + h2, h2 + h3 { margin-top: 0.5rem; }
+			p { margin: 0.5rem 0px; }
+			sup { font-size: 0.5em; }
+
+			body:not(.scripts-enabled) i,
+			body:not(.scripts-enabled) b {
+				font-family: 'Material Icons';
+				font-weight: normal;
+				font-style: normal;
+				line-height: 1;
+				letter-spacing: normal;
+				text-transform: none;
+				display: inline-block;
+				white-space: nowrap;
+				word-wrap: normal;
+				direction: ltr;
+				-webkit-font-feature-settings: 'liga';
+				-webkit-font-smoothing: antialiased;
+			}
+
+			body:not(.scripts-enabled) i,
+			i.material-icons,
+			body:not(.scripts-enabled) b,
+			b.material-icons {
+				font-size: 1em;
+				vertical-align: middle;
+			}
+			body:not(.scripts-enabled) i:not(.clickable):not(button > i),
+			i.material-icons:not(.clickable):not(button > i),
+			body:not(.scripts-enabled) b:not(.clickable):not(button > b),
+			b.material-icons:not(.clickable):not(button > b) {
+				cursor: default;
+			}
+
+			body:not(.scripts-enabled) i,
+			i.material-icons {
+				margin: 0px 0.25em;
+			}
+
+			body:not(.scripts-enabled) b,
+			b.material-icons {
+				padding: 0.1em;
+				background: linear-gradient(to bottom, #FFFFFF, #CCCCCC);
+				color: #333333;
+				text-shadow: 0px 1px white, 0px -1px black;
+				border-width: 1px 1px 2px;
+				border-style: solid;
+				border-color: #333333;
+				border-radius: 0.25em;
+			}
+
+			em {
+				font-size: 0.9em;
+				font-weight: normal;
+			}
+			em::before { content: '('; }
+			em::after { content: ')'; }
+
+			h1[data-byline]::after,
+			h2[data-byline]::after,
+			h3[data-byline]::after {
+				content: attr(data-byline);
+				font-weight: normal;
+				font-style: bold;
+				font-size: 0.75em;
+				padding-left: 1em;
+				color: #999999;
+			}
+
+			.clickable { cursor: pointer; }
+			.smaller { font-size: 0.9em; }
+			.bold { font-weight: bold; }
+			.red { color: red; }
+			.gray { color: #666666; }
+			.lightgray { color: #999999; }
+			.strike { text-decoration: line-through; }
+			.highlight { text-shadow: -0.5em 0px 0.5em #FFFF66, -0.25em 0px 0.25em #FFFF66, 0px 0px 0.25em #FFFF66, 0.25em 0px 0.25em #FFFF66, 0.5em 0px 0.5em #FFFF66; }
+			.indent { margin-left: 4em; }
+
+			#ribbon {
+				position: sticky;
+				top: 0px;
+				margin-bottom: 0.5em;
+				padding: 0.5em;
+				background-color: #FFFFCC;
+				color: black;
+			}
+			#ribbon:not(.shown) { display: none; }
+			#ribbon i.close { float: right; }
+			#ribbon i.close:hover {
+				color: white;
+				background-color: black;
+			}
+			#ribbon.red {
+				background-color: red;
+				color: white;
+			}
+			#ribbon.gray {
+				background-color: gray;
+				color: white;
+			}
+
+			#wrap {
+				margin: 1rem auto 2rem;
+				padding: 0.5rem;
+				width: 960px;
+				max-width: 100vw;
+				padding: 0px calc(64px + 1rem);
+				background-image: url({{ url_for('static', filename = 'favicon.png') }});
+				background-repeat: no-repeat;
+				background-origin: border-box;
+				background-position: 0.5rem 0px;
+			}
+			.hideme,
+			.hidechildren > *,
+			body.scripts-enabled .noscript,
+			body:not(.scripts-enabled) .yesscript,
+			body:not(.scripts-enabled) .browser-support,
+			body.is-chrome .browser-support,
+			body.is-firefox .browser-support,
+			body:not(.scripts-enabled) .upload-support,
+			body.can-upload .upload-support,
+			body:not(.scripts-enabled) .nomobile,
+			body.is-mobile .nomobile,
+			body:not(.is-mobile) .yesmobile,
+			body:not(.scripts-enabled) #wrap,
+			body:not(.scripts-enabled) .hide-if-open,
+			body:not(.scripts-enabled) .hide-if-not-open,
+			body.scripts-enabled .collapsible:not(.open) + div,
+			body.scripts-enabled .collapsible:not(.sticky):not(.open) + ul > li:not(.sticky),
+			body.scripts-enabled .collapsible.sticky:not(.open) + ul > li:nth-child(1) ~ li:not(.sticky),
+			body.scripts-enabled .collapsible.sticky:not(.open) + ul > li:nth-child(1) ~ li.long > ul > li > ul,
+			.collapsible.open .hide-if-open,
+			.collapsible:not(.open) .hide-if-not-open {
+				display: none;
+			}
+
+			h1 sup {
+				display: inline-block;
+				vertical-align: top;
+				font-size: 0.5em;
+				color: #990000;
+			}
+
+			button {
+				margin: 0px;
+				padding: 0.25em 0.5em;
+				font-family: inherit;
+				font-size: 1em;
+				vertical-align: top;
+				color: #333333;
+				text-shadow: 0px 1px white, 0px -1px black;
+				background: linear-gradient(to bottom, #FFFFFF, #CCCCCC);
+				border-width: 1px 1px 3px 1px;
+				border-style: solid;
+				border-color: #333333;
+				border-radius: 0.25em;
+			}
+			button[disabled] {
+				color: #999999;
+				border-color: #666666;
+			}
+			button:not([disabled]) { cursor: pointer; }
+			button:focus { outline: 0px; }
+			button:-moz-focus-inner { border: 0px; }
+			button:active {
+				margin-top: 2px;
+				border-bottom-width: 1px;
+			}
+
+			#goForm:valid ~ #goFormInvalid { display: none; }
+			#goForm:invalid button[type="submit"] { display: none; }
+			body.scripts-enabled #goForm:valid button[type="submit"] + button { display: none; }
+			#goForm button i {
+				margin: 0.1em 0px 0px;
+				padding: 0px 0px 0px 0.25em;
+				vertical-align: top;
+			}
+			#goForm button[type="submit"] {
+				color: white;
+				background: linear-gradient(to bottom, #009900, #336633);
+			}
+			#goForm button[type="submit"]:hover {
+				background: linear-gradient(to bottom, #00CC00, #339933);
+			}
+			#goForm button[type="submit"] + button {
+				color: #CCCCCC;
+				background: linear-gradient(to bottom, #999999, #666666);
+			}
+			#goCode {
+				margin: 0px;
+				padding: 0.25em;
+				width: 6em;
+				font-size: 0.95em;
+				border-width: 1px 1px 2px 1px;
+				border-style: solid;
+				border-color: #999999;
+				border-radius: 0.25em;
+			}
+			#goCode:hover, #goCode:focus, #goCode:not(.isEmpty) {
+				border-color: #000000;
+			}
+			#goCode:not(.isEmpty) {
+				text-transform: uppercase;
+			}
+
+			body.scripts-enabled .collapsible > span[id$='Button'] { cursor: pointer; }
+
+			#faq + ul > li > ul { padding-left: 0px; }
+			#faq + ul > li > ul > li { margin-top: 0.5rem; }
+
+			#faq + ul > li > ul > li,
+			#contact + ul li { list-style-type: none; }
+
+			#contact + ul form input[type="hidden"] { display: none; }
+
+			#contact + ul form input,
+			#contact + ul form button,
+			#contact + ul form select,
+			#contact + ul form textarea {
+				margin-right: 0.5em;
+				margin-bottom: 0.5em;
+				padding: 0.5em;
+				font-family: inherit;
+				font-size: 1em;
+			}
+			#contact + ul form button:active { margin-bottom: calc(0.5em - 2px); }
+			#contact + ul form input,
+			#contact + ul form select,
+			#contact + ul form textarea {
+				border: 2px solid #999999;
+			}
+			#contact + ul form input,
+			#contact + ul form button,
+			#contact + ul form select { height: 2.5em; }
+
+			#contact + ul form label {
+				display: none;
+				clear: both;
+				float: none;
+				margin-bottom: 0.5em;
+				font-weight: normal;
+				color: red;
+			}
+			#contact + ul form #contact-url:invalid ~ label[for="contact-url"],
+			#contact + ul form #contact-from:invalid ~ label[for="contact-from"],
+			#contact + ul form #contact-subject:invalid ~ label[for="contact-subject"],
+			#contact + ul form #contact-body:invalid ~ label[for="contact-body"] { display: block; }
+
+			#contact + ul form input:invalid,
+			#contact + ul form select:invalid,
+			#contact + ul form textarea:invalid {
+				border-style: dashed;
+				border-color: red;
+			}
+
+			#contact + ul form:invalid button[type="submit"] { display: none; }
+			#contact + ul form:valid button[type="submit"] + button { display: none; }
+			#contact + ul form button[type="submit"] i,
+			#contact + ul form button[type="submit"] + button i {
+				margin: 0.1em 0px 0px;
+				padding: 0px 0px 0px 0.25em;
+				vertical-align: top;
+			}
+
+			#contact + ul form #contact-name,
+			#contact + ul form #contact-url,
+			#contact + ul form #contact-from,
+			#contact + ul form #contact-subject {
+				margin-right: 0px;
+				width: calc((100% - 0.75em) / 2);
+			}
+
+			#contact + ul form #contact-url,
+			#contact + ul form #contact-subject { float: right; }
+
+			#contact + ul form #contact-body {
+				width: 100%;
+				height: calc(16em);
+			}
+
+			body:not(.scripts-enabled) ul.noscript-contact-false,
+			body:not(.scripts-enabled) p.noscript-contact-true,
+			body.scripts-enabled p.noscript-contact-false,
+			body.scripts-enabled p.noscript-contact-true { display: none; }
+
+			#wrap > ul > li { font-weight: bold; }
+			#wrap > ul > li > ul { font-weight: normal; }
+			#wrap > ul > li + li { margin-top: 0.5em; }
+
+			footer {
+				margin-top: 1.5em;
+				font-size: 0.75em;
+				color: #666666;
+			}
+		</style>
+		<noscript><style>
+			body:not(.scripts-enabled) #wrap { display: block; }
+		</style></noscript>
+	</head>
+	<body class="is-firefox can-upload scripts-enabled">
+		<div id="ribbon" class="yellow"></div>
+		<div id="wrap">
+			<h1>CS5e</h1>
+			<h2>Character Sheet, 5th edition</h2>
+			<p>CS5e is a simple, free, online character sheet manager for use with the <strong>Dungeons &amp; Dragons<sup>TM</sup></strong> 5th edition tabletop roleplaying game.</p>
+			<p>Save paper and stay organized by storing your character sheets online.</p>
+			<form id="goForm" autocomplete="off" class="isEmpty"><h2>
+				<button type="submit" class="yesscript">Get Started<i class="material-icons">arrow_forward</i></button>
+				<button type="button" disabled="disabled">Get Started<i class="material-icons">arrow_forward</i></button>
+				<input id="goCode" type="text" class="yesscript isEmpty" value="" placeholder="Sheet code" pattern="[A-Za-z0-9]{3,5}" maxlength="5">
+			</h2></form>
+			<p id="goFormInvalid" class="yesscript red">A valid sheet code is 3-5 characters, comprised of uppercase letters and numbers.</p>
+			<p class="noscript red">CS5e uses JavaScript. Please enable scripts and refresh the page.</p>
+			<p class="browser-support smaller gray">It is recommended (but not required) that you access CS5e with the latest version of Chrome or Firefox.</p>
+
+			<h2 id="update-dev-hiatus" data-byline="January 31, 2020"><i class="material-icons">announcement</i> Update: Development hiatus</h2>
+			<p>It's been a while since I posted anything here. The truth is, my vision for version 2 of CS5e is far too ambitious for me to tackle on my own at this time. This version is and has been "good enough" for my own purposes, and I've thus been unable to gather the motivation to push forward with development. My personal life has also been a bit more hectic as of late. So, for now, I've decided to put this project on hiatus. <span class="highlight">The service will stay online, of course</span> (I'm using it, myself) but little to no development will take place until further notice. I'll pick it up again, with gusto, some time in the future.</p>
+			<p>That said, I do have an idea bouncing around in my head for a clean-ish way to implement image support for character portraits and organization symbols into the current version, and it may or may not show up in the near future. That was, after all, a planned feature of version 1.</p>
+
+			<h2 id="new-version-in-dev" class="collapsible lightgray strike" data-byline="November 10, 2018"><span id="new-version-in-devButton"><i class="material-icons">announcement</i> Version 2 in development<i class="hide-if-open material-icons">expand_more</i><i class="hide-if-not-open material-icons">expand_less</i></span></h2>
+			<div>
+				<p>When I first started this project, some choices were made that allowed rapid development at the cost of code quality. While this got the project up and running faster, it meant that eventually those issues would have to be addressed. While I took care to write the code in very generic and modular ways whenever possible, a few of these shortcuts have proven extremely difficult to replace. They have even held up implementation of what was originally supposed to be a core feature: character portrait uploads.</p>
+				<p>As I have been working to improve CS5e over the past month or so, it has become increasingly clear to me that much of the code simply needs to be rewritten. I always intended a full rewrite at some point, so this isn't completely out of left field. Maintaining data compatibility with this version will be a primary objective of the rewrite, as will reimplementing all current functionality. So, when the new version is ready, you'll be able to bring all your characters with you.</p>
+				<p><span class="highlight">I have no plans to shut down this version of CS5e</span>, so feel free to continue using it while the new version is under development. If you are interested in contributing to the development process as a tester, please use the contact form below to get in touch. At this time, I am not seeking additional developers.</p>
+			</div>
+
+			<h3 id="faq" class="collapsible"><span id="faqButton"><i class="material-icons">help_outline</i> Frequently Asked Questions<i class="hide-if-open material-icons">expand_more</i><i class="hide-if-not-open material-icons">expand_less</i></span></h3>
+			<ul><li>Is this really free? Will it always be free?<ul><li>In a word: YES.</li><li>This project was born out of my love for D&amp;D and my desire to stay more organized across the multiple groups and campaigns I play. This is a tool I use myself, and I gladly provide it as a service to all, free of charge.</li></ul></li><li>Can you add _____ feature?<ul><li>CS5e is currently undergoing a rewrite. Going forward, the only updates this version will receive are bugfixes.</li></ul></li><li>What if I forget the password for a character sheet?<ul><li>Because CS5e stores passwords as cryptographic hashes, recovering a lost password is impossible.</li><li>However, if you took the prudent step of setting a password recovery e-mail address for the character sheet in question, you can have the password reset.<ul><li>The <b class="material-icons">alternate_email</b> button in the tools panel <b class="material-icons">build</b> can be used to set your recovery email address.</li></ul></li><li>Use the contact form below with the 'Forgot My Password' subject. Be sure to include your character sheet URL and use the same e-mail address as your sheet's recovery address.</li></ul></li></ul>
+			<h3 id="todo" class="collapsible"><span id="todoButton"><i class="material-icons">info_outline</i> Known Issues<i class="hide-if-open material-icons">expand_more</i><i class="hide-if-not-open material-icons">expand_less</i></span></h3>
+			<ul><li>Some users have reported issues using CS5e after Windows 10 installed updates.<ul><li>The specific cause of this is unknown.</li><li>One user reported success restoring Google Chrome's functionality by reinstalling the browser.</li></ul></li><li>Auto-indentation<ul><li>Disabled on mobile due to inconsistent behavior</li><li>Not working in Firefox due to <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1220696" target="_blank">bug #1220696</a></li></ul></li><li>App hangs on Android when toggling read-only mode<ul><li>Wait about 5 seconds and the display should catch up.</li><li>This was not always the case, and began presenting itself without changes to CS5e.</li><li>I suspect an update to the OS may be the cause, but I have not confirmed this.</li></ul></li><li>Trying to navigate "back" doesn't work after loading a sheet<ul><li>Only affects the given tab, not browser history</li><li>"Back" is usually the landing page, for which there is a menu button <b class="material-icons">home</b></li></ul></li></ul>
+			<h3 id="changelog" class="collapsible"><span id="changelogButton"><i class="material-icons">change_history</i> Change log<i class="hide-if-open material-icons">expand_more</i><i class="hide-if-not-open material-icons">expand_less</i></span></h3>
+			<ul><li>2020-06-13: QoL: Bigger, Smaller, and Unbound<ul><li>Quick-loading no longer forces a random sheet code when the one supplied is valid and unused</li><li>Attribute minimum and maximum caps can now be disabled in the options <b class="material-icons">settings</b> panel</li></ul></li><li>2019-05-23: Another QoL improvement<ul><li>The following fields can now be hidden when printing:<ul><li>Current HP</li><li>Temporary HP</li><li>Current hit dice</li><li>Coins</li><li>Spell slots used per level</li></ul></li><li>Toggle "Transient fields in print" off in the options <b class="material-icons">settings</b> panel to:<ul><li>Hide these fields when printing your sheet</li><li>Highlight these fields with a dashed border while focused or hovering</li></ul></li></ul></li><li>2019-04-14: Small quality-of-life improvement<ul><li>The CS5e.net landing page now has an input field for a sheet code.</li><li>This means it will take fewer clicks to load existing sheets when a user lands on the home page.</li><li>Several people voiced frustrations over this recently. This improvement will be brought forward to the next version.</li></ul></li><li>2019-03-08<ul><li>Some layout and sizing bugfixes surrounding the use of number fields</li><li>Documented a couple more known issues</li></ul></li><li class="long">2018-11-10<ul><li class="highlight">This version of CS5e will now be maintained in a bugfix-only capacity</li><li>Attacks can now be rearranged<ul><li>You can now change the order of the six attack slots on the first page.</li><li>Click the <i class="material-icons">swap_vert</i> icon between the slots to swap the the two adjacent attacks.</li></ul></li><li>The experience field is now calculable (see 2017-08-11 change log)</li></ul></li><li class="long">2018-06-14<ul><li>Menu decluttering<ul><li>There is a new button in the menu for the tools panel <b class="material-icons">build</b>.</li><li>Functions that require the sheet to be saved are now located in this new panel.<ul><li><b class="material-icons">vpn_key</b> Change password</li><li><b class="material-icons">edit</b> Change sheet code</li></ul></li></ul></li><li>Added ability to set a password recovery e-mail address<ul><li>You can set the sheet's password recovery e-mail address <b class="material-icons">alternate_email</b> in the tools panel <b class="material-icons">build</b>.</li><li>Because of the way CS5e stores sheet passwords, it is impossible to retrieve a lost password.</li><li>If you forget your password, you can now use the contact form on <strong>cs5e.net</strong> with the 'Forgot my password' subject.</li><li>Be sure to use the same e-mail address on the contact form as your sheet's recovery address.</li></ul></li><li>Automatically calculate attribute modifiers<ul><li>CS5e can now optionally fill in the modifier field for each of the six base attributes.</li><li>This is off by default, but can be enabled in the options panel <b class="material-icons">settings</b>.</li></ul></li><li>Various other tweaks<ul><li>The tools <b class="material-icons">build</b> and options <b class="material-icons">settings</b> buttons are now colored with a blue hint when their respective panels are open.</li><li>While calculable fields are enabled, affected input fields will be colored with a green hint on hover and focus.</li><li>The six attribute fields and the alternate inspiration field are now numerical input elements.<ul><li>This made calculating the attribute modifiers a little easier.</li></ul></li><li>Colors in the dark theme have been tweaked slightly to improve readability, particularly in the options panel <b class="material-icons">settings</b>.</li></ul></li><li>Some more code cleanup</li></ul></li><li class="long">2018-06-13: Attacking the Darkness<ul><li>A dark theme can now be enabled in the options panel <b class="material-icons">settings</b>.<ul><li>This should improve battery usage on mobile devices.</li><li>It's also better for sensitive eyes and darker environments.</li></ul></li><li>Removed some old code from when the data model changed.</li></ul></li><li>2018-05-11: Some small performance improvements</li><li>2017-12-25<ul><li>HTTPS is now available. I strongly encourage all users to begin accessing CS5e securely.</li><li>Bookmarks and home screen shortcuts will need to be updated to take advantage of this.</li></ul></li><li>2017-12-01<ul><li>New domain name: <strong>cs5e.net</strong></li><li>All users should update their bookmarks and home screen shortcuts.</li><li>The <strong>cs5e.online</strong> domain will cease to function after December 20, 2017.</li></ul></li><li>2017-11-17<ul><li>Improved the deployment process for updates</li><li>No code changes, but there were a few minutes of downtime during migration</li></ul></li><li>2017-08-31<ul><li>Calculable fields can now be disabled in the options panel <b class="material-icons">settings</b></li><li>They are enabled by default for new and existing sheets.</li></ul></li><li>2017-08-11: Calculable fields<ul><li>The following fields now have some basic arithmetic support:<ul><li>Maximum hit points</li><li>Current hit points</li><li>Temporary hit points</li><li>Coins (CP, SP, EP, GP, PP)</li></ul></li></ul></li><li class="long">2017-07-26<ul><li>Bug fixes<ul><li>CS5e was not respecting orientation lock for mobile users who added it to their home screen.</li><li>Some users experienced unexpected behavior when triggering several server requests in rapid succession.</li><li>Entering a non-number (like an empty string) into the notes pages option field caused some undesired behavior.</li></ul></li><li>Menu UX tweaks<ul><li>The menu is now always available at the top of the document.</li><li>With the menu "closed," it stays at the top of the document and scrolls out of view.</li><li>"Opening" the menu behaves as before, granting access to it regardless of scrolling.</li></ul></li><li>Complete rewrite of client-side XHR<ul><li>This is a step towards implementing file uploads for the character portrait and organization symbol fields.</li><li>Mask and spinner added<ul><li>This further helps to address the unexepcted behavior mentioned above.</li><li>Prevents accidental double-clicks by masking the entire interface while a request is being processed.</li></ul></li></ul></li><li>Page toggle animations removed<ul><li>I've been giving it some thought, and if I'm honest the sliding-in animations are unneccessary. They're cool, but they slow the app down a little and I'm starting to have to jump through hoops to make new features play nice with them.</li><li>The loading spinner (as well as the new XHR spinner) will remain, as they are simple enough and actually have a function in that they indicate to the user that their client is currently communicating with the server.</li><li>I was also able to significantly clean up the menu animation after implementing its new behavior, so it can stay as well.</li></ul></li></ul></li><li>2017-07-10<ul><li>The contact form now has a field for a character sheet URL.<ul><li>Please use this field when submitting bug reports.</li><li>I will copy the data locally to reproduce bugs in my development environment.</li><li>I also added some validation hints that appear when there is invalid form data.</li></ul></li><li>More notes pages<ul><li>Sheets can now have up to 10 pages of notes, instead of just one.</li><li>The option <b class="material-icons">settings</b> for showing notes pages is now a number field.</li><li>Because the data type of the option field has changed, and to preserve existing notes:<ul><li>A data migration routine will run automatically when you load your sheet.</li><li>Your data will only be updated on the server when you save.</li><li class="highlight">If you load a sheet that has notes data, and the data is not loading correctly, use the contact form below to file a bug report and let me know.</li><li>I've tested against my own data and everything looks good, but you never know.</li></ul></li></ul></li><li>Implementing more notes pages forced me to revise several pieces of code:<ul><li>Option pane of the menu</li><li>Option change handlers</li><li>Checking for unsaved changes</li><li>Loading data from the server</li></ul></li><li>Again, I tested this heavily as I went along, but if you happen to notice anything amiss, particularly with the above, please send a bug report.</li></ul></li><li>2017-07-07<ul><li>Slight landing page CSS overhaul<ul><li>Significant readability improvement for mobile devices</li><li>More consistent rendering across platforms</li></ul></li><li>Restyled character sheet menu buttons<ul><li>More consistent rendering across browsers and platforms</li></ul></li><li>App manifest added<ul><li>Adding CS5e to your home screen on mobile devices will now hide the browser UI.</li><li>This grants slightly more screen real estate.</li><li>More functionality like gesture controls may be added in the future.</li></ul></li></ul></li><li>2017-07-06<ul><li>I noticed a couple intermittent issues with the auto-indent behavior on my tablet yesterday.</li><li>Since I'm having trouble pinpointing the cause, I've disabled auto-indent for mobile devices.</li><li>I'll probably end up rewriting that feature entirely (again) when I have some more time and patience.</li><li>Mobile devices will also no longer try to bind keyboard shortcuts.</li></ul></li><li>2017-07-05: Added a contact form on the landing page</li><li>2017-06-30<ul><li>Whoops, I broke it.<ul><li>When I originally pushed today's update, there were apparently a couple small—but critical—problems with my code.</li><li>Everything should be fixed, and I'd like to clarify that this had no effect on character data.</li><li>I apologize for the inconvenience.</li></ul></li><li>Cache improvements<ul><li>While testing recent updates, I've noticed that my browser's cached version of assets like scripts and stylesheets caused some undesirable behavior.</li><li>Today's update should address this. Requests for assets after the initial page load are now prepended with a checksum of all assets as they exist on the server.</li><li>This should allow browsers to continue to cache assets (speeding up the app), while ensuring that you're always loading the latest version of those assets.</li></ul></li><li>Added a couple more animations</li><li>Disabled all animations (except the loading spinner) on mobile to help keep the app snappy</li><li>Some back-end code optimization</li></ul></li><li>2017-06-28<ul><li>The menu now slides in/out from the top of the viewport</li><li>The spellcasting and notes pages now slide open/closed</li></ul></li><li>2017-06-24: Some code optimization</li><li>2017-06-22: Loading animation added<ul><li>Previously, CS5e threw everything at the browser and assets like fonts and page designs became available whenever they finished downloading. This caused things to "pop in" as they loaded, and in general made the app look sluggish on first load.</li><li>Now, while assets are loading, the user is shown a loading animation built using a small amount of CSS. The user is only presented with an interface after everything is ready.</li><li>Not only does it look cool (if I do say so), the initial page load now feels snappier.</li></ul></li><li>2017-06-21<ul><li>Click the sheet code in the upper-right of any page to copy the sheet URL to your clipboard.<ul><li>Tested working in Chrome and Firefox on PC, Chrome on Android</li><li>For browsers that don't support this functionality (e.g. Safari), a JavaScript prompt with the URL will be displayed instead.</li></ul></li></ul></li><li>2017-06-09<ul><li>New option: Show alternate Armor Class field<ul><li>A second AC field can now be enabled, allowing you to keep track of an alternate AC value.</li><li>This is useful for characters whose AC can change, for example, by casting Mage Armor.</li></ul></li><li>Added one more "secondary" attack slot</li><li>Slight code optimization</li></ul></li><li>2017-04-15: Some small code optimizations and refactoring</li><li>2017-04-11<ul><li>Rendering of the options panel <b class="material-icons">settings</b> has been tweaked to improve usabilty on touch devices.</li><li>Added an FAQ section to the home page.</li></ul></li><li>2017-04-08: New option: Use text for Inspiration<ul><li>For players whose DM chooses to award multiple inspiration points, the field can now optionally be text instead of a checkbox, allowing for the entry of numbers.</li></ul></li><li>2017-03-29: Bug fix<ul><li>Keyboard shortcuts in some browsers were still triggering the browser's default behavior.</li></ul></li><li>2017-03-09<ul><li>Bug fixes<ul><li>Keyboard shortcuts (Ctrl+S, etc) were broken by the previous update</li><li>Skill and saving throw modifier fields adjusted to cleanly accomodate double-digit bonuses</li></ul></li><li>Backend work<ul><li>Work has begun on adding image upload functionality.</li><li>The first steps toward this goal include behind-the-scenes tweaks and improvements.</li><li>More updates coming soon.</li></ul></li></ul></li><li>2017-02-19<ul><li>Bug fixes<ul><li>Saving after modifying the character name caused the field on page 2 to revert to its pre-modified value.</li><li>Under certain conditions, users were prevented from navigating away with unsaved changes, even after confirming.</li><li>I missed updating the position for a few elements when the font was changed.</li></ul></li><li>Multi-line text fields now auto-indent on a newline if the previous line was indented.<ul><li>This makes organizing blocks of text a little easier.</li><li>You can suppress this behavior by using Shift+Enter, as is common in other applications.</li></ul></li><li>A small number of other under-the-hood improvements have been made.</li></ul></li><li>2017-01-18: Now with 100% more tree-killing power!<ul><li>Printing is now available on devices that support it.<ul><li>My own testing indicates that the best results can be achieved using Google Chrome, and turning off margins for the print job.</li><li><s>Some minor glitches with text rendering have been encountered. They seem to be specific to Chrome on Linux, and I'm working on ironing them out.</s></li></ul></li><li>Bug fixes<ul><li>Saving was broken after switching from one loaded character sheet to another without refreshing the page.</li><li>The character name fields on pages 1 and 2 were not kept in sync under certain circumstances.</li><li>Changing the character sheet code was broken for newly-saved sheets (i.e. before a page reload).</li><li>Adjusted text size in save and skill bonus fields to prevent clipping with two-digit bonuses.</li><li>Changed the font and updated sizing and position of various fields to compensate for slight variations.<ul><li>This fixes the print issues I had previously described on Linux.</li></ul></li></ul></li></ul></li><li>2017-01-05: Pick a code, any code!<ul><li>Once saved and while in edit mode <b class="material-icons">lock_open</b>, users can now change their character sheet code <b class="material-icons">edit</b>.</li><li>A valid code is 3-5 characters, comprised of uppercase letters and numbers.</li></ul></li><li>2017-01-04: Spells! Adventure! Notes!<ul><li>Page 3 (the spellcasting sheet) is now laid out and available for use.</li><li>Adventurer's League players can now enable a supplementary portion of the first page's header, which contains fields for your faction and DCI number.</li><li>There is now a general-purpose page with ample room for taking lots of notes.</li><li>To reduce clutter, these pages and fields are hidden by default. They can be enabled from the menu, in the options panel <b class="material-icons">settings</b>.</li></ul></li><li>2017-01-01: Happy New Year<ul><li>Page 2 is now laid out and available for use.</li><li>The character name field will be kept updated automatically between pages.</li><li>Character appearance details and organization symbols will become available after the third page is done.<ul><li>Users will be able to upload images for these sections.</li></ul></li></ul></li><li>2016-12-31: Final interface tweaks of 2016<ul><li>The menu has been moved to the top of the viewport, its mask removed, and its buttons resized to accomodate more functionality.</li><li>New "Read-only" mode <b class="material-icons">lock</b><ul><li>Once character data has been saved, the user now has the ability to disable interactivity for the form elements on the sheet.</li><li>This makes it much easier to reference your sheet without inadvertently manipulating the data, particularly on touch devices.</li><li>Existing data is loaded in read-only mode.</li><li>Entering edit mode requires the sheet's password.</li></ul></li><li>Added character name to the window title, updated automatically upon save or load. This should make bookmarks easier to differentiate.</li></ul></li><li>2016-12-27: Tiny backend update<ul><li>Corrected a problem with character sheet creation<ul><li>CS5e was was throwing a wrong password error on initial save, acting as though new sheets already existed</li></ul></li><li>Various other small, backend code improvements</li></ul></li><li>2016-12-25: First update<ul><li>General UX improvements<ul><li>User is now warned of unsaved changes when trying to navigate away or load new data</li><li>Menu button moved to a more "standard" placement at the upper left of the viewport</li><li>Menu button increased in size slightly, making it easier to tap on mobile phones</li></ul></li><li>Clunky "about" screen removed, landing page added (this page)</li><li>Happy holidays, everyone</li></ul></li><li>2016-12-22: First release</li></ul>
+			<h3 id="contact" class="collapsible"><span id="contactButton"><i class="material-icons">mail_outline</i> Contact<i class="hide-if-open material-icons">expand_more</i><i class="hide-if-not-open material-icons">expand_less</i></span></h3>
+			<ul class="noscript-contact-false"><li><form method="post" action="contact" enctype="application/x-www-form-urlencoded">
+				<input id="contact-name" name="contact-name" type="text" placeholder="Your name">
+				<input id="contact-url" name="contact-url" type="url" placeholder="Character sheet URL" pattern="https?://cs5e\.net/sheet#[A-Z0-9]{3,5}"><br>
+				<input id="contact-from" name="contact-from" type="email" placeholder="Your e-mail address" required="required">
+				<select id="contact-subject" name="contact-subject" required="required">
+					<option value="" selected="selected" hidden="hidden">Select a subject</option>
+					<option value="general">General Feedback</option>
+					<option value="bug">Bug Report</option>
+					<option value="request">Feature Request</option>
+					<option value="password">Forgot My Password</option>
+					<option value="other">Other</option>
+				</select><br>
+				<textarea id="contact-body" name="contact-body" required="required" placeholder="Type your message here"></textarea><br>
+				<label for="contact-url">Please provide a valid sheet URL.</label>
+				<label for="contact-from">Please provide a valid e-mail address.</label>
+				<label for="contact-subject">Please select a subject.</label>
+				<label for="contact-body">Please type a message.</label>
+				<button type="reset">Clear</button>
+				<button type="submit">Submit<i class="material-icons">send</i></button>
+				<button type="button" disabled="disabled">Submit<i class="material-icons">send</i></button>
+				<span></span>
+			</form></li></ul>
+			<p class="noscript-contact-false red">Please enable JavaScript to use the contact form.</p>
+
+			<footer>
+				<p>Code and interface design copyright © 2016-2022 <a href="http://benlandin.net/" target="_blank">Benjamin Landin</a>.</p>
+				<p>
+					Wizards of the Coast, Dungeons &amp; Dragons, their logos, and the character sheet design are trademarks of Wizards of the Coast LLC.<br>
+					Copyright © 2014-2022 Wizards. All Rights Reserved.
+				</p>
+			</footer>
+		</div>
+		<script src="{{ url_for('static', filename = 'util.js') }}"></script>
+			<script>
+		if (!util.isSecure) {
+							util.goSecure();
+					}
+	</script>
+		<script>
+			dbug.pushLevel(0);
+			var oldContactBody = null, contactFormSubj = function (e) {
+				var subj = (e.target.id == 'contact-subject' ? e.target.value : '');
+				util.byId('contact-url').required = (subj == 'password');
+				var bodyEl = util.byId('contact-body');
+				if (subj == 'password') {
+					oldContactBody = bodyEl.value;
+					bodyEl.value = 'Please reset my password for the character sheet URL I have included above.' +
+						'\r\n\r\nI understand that this is currently a manual process and may take up to a day.';
+					bodyEl.disabled = true;
+				} else if (oldContactBody !== null) {
+					bodyEl.value = oldContactBody;
+					oldContactBody = null;
+					bodyEl.disabled = false;
+				}
+			};
+			util.listen(document, 'DOMContentLoaded', function (e) {
+				var code = window.location.hash.substr(1);
+				if ((function (code) { return /^[A-Z0-9]{3,5}$/.test(code.toUpperCase()); }(code))) window.location.href = './sheet#' + code;
+				else {
+					util.listen('#goCode', ['input', 'keyup', 'blur'], function (e) {
+						util.toggleClass([e.target, '#goForm'], 'isEmpty', (e.target.value == ''));
+					});
+
+					util.listen('#goForm', 'submit', function (e) {
+						e.preventDefault();
+						window.location.href = './sheet#' + util.byId('goCode').value.toUpperCase();
+						return false;
+					});
+
+					util.get('.collapsible').forEach(function (el) {
+						var btnId = el.id + 'Button';
+						el.innerHTML = '<span id="' + btnId + '">' + el.innerHTML + '<i class="hide-if-open">expand_more</i><i class="hide-if-not-open">expand_less</i></span>';
+						util.listen(btnId, 'click', function (e) { util.toggleClass(el, 'open'); });
+					});
+
+					util.listen('#contact-subject', 'change', contactFormSubj);
+					util.listen('#contact + ul form', 'reset', contactFormSubj);
+					util.listen('#contact + ul form', 'submit', function (e) {
+						e.preventDefault();
+
+						var formData = {};
+						util.get('#contact + ul form [name]').forEach(function (el) { formData[el['name']] = el.value; });
+
+						new AjaxRequest({
+							method: 'POST',
+							url: './contact_ajax',
+							data: formData,
+							responseType: 'json',
+							mask: true,
+							maskText: 'Submitting feedback...',
+							handler: function (done, xhr, r) {
+								if (!done) {
+									util.delay(100, window.alert, 'Something went wrong. Please try again.');
+								} else if (r.status == 200) {
+									util.get('#contact + ul form')[0].reset();
+									util.toggleClass('#contact', 'open', false);
+									util.delay(100, window.alert, r['message']);
+								} else if ('reason' in r) {
+									util.delay(100, window.alert, r['reason']);
+								} else {
+									util.delay(100, window.alert, 'The contact form appears to be broken. Please try again later.');
+								}
+							}
+						});
+
+						return false;
+					});
+
+					util.toggleClass(['b', 'i'], 'material-icons', true);
+					util.forEach({
+						'debug-mode':		0,
+						'is-mobile':		util.isMobile,
+						'is-chrome':		util.isChrome,
+						'is-firefox':		util.isFirefox,
+						'can-upload':		(!util.isMobile && util.canDragDrop),
+						'noscript-contact':	false,
+						'scripts-enabled':	true
+					}, function (className, state) { if (state) util.toggleClass(document.body, className, true); });
+				}
+			});
+		</script>
+	
+
+</body></html>

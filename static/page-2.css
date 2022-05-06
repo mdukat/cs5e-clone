@@ -1,0 +1,162 @@
+#page-2 .sheetCode {
+	top: 11.35vw;
+	right: 1.8vw;
+	transform: rotate(-90deg);
+	transform-origin: center;
+}
+
+#page-2 #name-2 {
+	top: 10.4vw;
+	left: 7.4vw;
+	width: 33.5vw;
+	height: 3.5vw;
+	text-align: center;
+}
+
+#page-2 #age,
+#page-2 #eyes,
+#page-2 #height,
+#page-2 #skin,
+#page-2 #weight,
+#page-2 #hair {
+	top: 8.4vw;
+	left: 42.2vw;
+	width: 17.2vw;
+	font-size: 1.5vw;
+}
+#page-2 #eyes,
+#page-2 #skin,
+#page-2 #hair {
+	top: 12.6vw;
+}
+#page-2 #height,
+#page-2 #skin {
+	left: 60.3vw;
+	width: 14.5vw;
+}
+#page-2 #weight,
+#page-2 #hair {
+	left: 75.7vw;
+	width: 16vw;
+}
+
+#page-2 #appearance {
+	top: 20vw;
+	left: 4.5vw;
+	width: 28.5vw;
+	height: 38.2vw;
+}
+	#page-2 #appearance #portrait {
+		top: 2vw;
+		left: 2vw;
+		width: 24.5vw;
+		height: 34.2vw;
+		padding-top: 14vw;
+		font-size: 1.5rem;
+		text-align: center;
+		color: #999999;
+	}
+
+#page-2 #backstory {
+	top: 61.7vw;
+	left: 5.5vw;
+	width: 26.5vw;
+	height: 59vw;
+}
+
+#page-2 #allies {
+	top: 20vw;
+	left: 34.7vw;
+	width: 59vw;
+	height: 38.2vw;
+}
+	#page-2 #allies #organization {
+		top: 2vw;
+		left: 32vw;
+		width: 24.2vw;
+		height: 25.2vw;
+	}
+		#page-2 #allies #organization #organization-name {
+			top: 2.6vw;
+			left: 0.8vw;
+			width: 22.55vw;
+			height: 2.5vw;
+			font-size: 1.25vw;
+			text-align: center;
+			border-top-right-radius: 0px;
+			border-bottom-left-radius: 0px;
+		}
+		#page-2 #allies #organization #organization-symbol {
+			top: 5.5vw;
+			left: 0.8vw;
+			width: 22.55vw;
+			height: 18vw;
+			padding-top: 6vw;
+			font-size: 1.5rem;
+			text-align: center;
+			color: #999999;
+		}
+	#page-2 #allies [id|="allies"] {
+		left: 1vw;
+		width: 29.3vw;
+		border-left: 2px solid #999999;
+		border-right: 2px solid #999999;
+	}
+	#page-2 #allies [id|="allies"][disabled] {
+		border-color: #CCCCCC;
+	}
+	#page-2 #allies #allies-primary {
+		top: 0.8vw;
+		height: 17.5vw;
+		font-size: 1.25vw;
+		border-width: 0px 4px;
+		border-style: double;
+	}
+	#page-2 #allies #allies-secondary {
+		top: 19vw;
+		height: 10vw;
+	}
+	#page-2 #allies #allies-tertiary-1,
+	#page-2 #allies #allies-tertiary-2 {
+		top: 29.7vw;
+		height: 6.4vw;
+		font-size: 0.8vw;
+		border-width: 0px 1px;
+	}
+	#page-2 #allies #allies-tertiary-2 {
+		left: 31vw;
+		width: 26.8vw;
+	}
+
+#page-2 #more-features,
+#page-2 #treasure {
+	left: 34.7vw;
+	top: 59.2vw;
+	height: 35.7vw;
+	width: 58.8vw;
+}
+#page-2 #treasure {
+	top: 95.7vw;
+	height: 27.1vw;
+}
+	#page-2 #more-features [id|="more-features"],
+	#page-2 #treasure [id|="treasure"] {
+		top: 1vw;
+		width: calc(100% / 2 - 1.35vw);
+		height: calc(100% - 3vw);
+		font-size: 0.9vw;
+		border-left: 1px solid #999999;
+		border-right: 1px solid #999999;
+	}
+	#page-2 #more-features [id|="more-features"][disabled],
+	#page-2 #treasure [id|="treasure"][disabled] {
+		border-color: #CCCCCC;
+	}
+	#page-2 #more-features #more-features-1,
+	#page-2 #treasure #treasure-1 {
+		left: 1vw;
+	}
+	#page-2 #more-features #more-features-2,
+	#page-2 #treasure #treasure-2 {
+		right: 1vw;
+	}

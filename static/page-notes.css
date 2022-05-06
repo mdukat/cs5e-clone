@@ -1,0 +1,49 @@
+div[id|="page-notes"] .sheetCode {
+	top: 2.5vw;
+	right: 2.5vw;
+}
+
+div[id|="page-notes"] .notes {
+	top: 1vw;
+	right: 1vw;
+	bottom: 1vw;
+	left: 1vw;
+}
+	div[id|="page-notes"] .notes::before {
+		display: block;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		left: 0px;
+		height: 5vw;
+		padding-top: 0.1em;
+		border-radius: 0.25em;
+		border: 0.2em double black;
+		font-size: 2.5vw;
+		text-align: center;
+		text-transform: uppercase;
+		content: 'Notes';
+	}
+	div[id|="page-notes"] .notes textarea {
+		top: 6vw;
+		width: calc((100% - 2.1vw) / 4);
+		height: calc(100% - 6vw);
+		border-left: 1px solid #999999;
+		border-right: 1px solid #999999;
+	}
+	div[id|="page-notes"] .notes textarea[disabled] { border-color: #CCCCCC; }
+	div[id|="page-notes"] .notes textarea:nth-child(1) { left: 0px; }
+	div[id|="page-notes"] .notes textarea:nth-child(2) { left: calc((100% - 2.1vw) / 4 + 0.7vw); }
+	div[id|="page-notes"] .notes textarea:nth-child(3) { right: calc((100% - 2.1vw) / 4 + 0.7vw); }
+	div[id|="page-notes"] .notes textarea:nth-child(4) { right: 0px; }
+
+	#page-notes-1 .notes::before { content: 'Notes (1)'; }
+	#page-notes-2 .notes::before { content: 'Notes (2)'; }
+	#page-notes-3 .notes::before { content: 'Notes (3)'; }
+	#page-notes-4 .notes::before { content: 'Notes (4)'; }
+	#page-notes-5 .notes::before { content: 'Notes (5)'; }
+	#page-notes-6 .notes::before { content: 'Notes (6)'; }
+	#page-notes-7 .notes::before { content: 'Notes (7)'; }
+	#page-notes-8 .notes::before { content: 'Notes (8)'; }
+	#page-notes-9 .notes::before { content: 'Notes (9)'; }
+	#page-notes-10 .notes::before { content: 'Notes (10)'; }

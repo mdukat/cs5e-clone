@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+		<title>CS5e #{{ sheet_code }}</title>
+		<meta charset="UTF-8">
+		<style>
+			html {
+				margin: 0px;
+				padding: 0px;
+				font-size: 1.5vw;
+				box-sizing: border-box;
+			}
+			*, *::before, *::after { box-sizing: inherit; }
+			body {
+				margin: 0px;
+				padding: 0px;
+				background-color: #CCCCCC;
+				text-size-adjust: none;
+				-webkit-text-size-adjust: none;
+				-moz-text-size-adjust: none;
+			}
+			p {
+				margin: 0.25em 0px;
+				padding: 0px;
+				width: auto;
+			}
+			div,
+			input,
+			label,
+			textarea {
+				position: absolute;
+				margin: 0px;
+				padding: 0px;
+				height: auto;
+				text-align: left;
+				font-family: 'Cantarell', sans-serif;
+				font-size: 1vw;
+				color: #000000;
+			}
+			div,
+			span,
+			input,
+			label,
+			textarea {
+				background-color: transparent;
+				border: 0px;
+				border-radius: 0.4rem;
+			}
+			#loading {
+				position: fixed;
+				left: 0px;
+				top: 0px;
+				width: 100vw;
+				height: 100vh;
+				padding-top: 50vh;
+				text-align: center;
+				background-color: #CCCCCC;
+				border-radius: 0px;
+				z-index: 9920;
+			}
+			#loading::before,
+			#loading::after {
+				content: '';
+				display: block;
+				position: absolute;
+				border-radius: 50%;
+				transform-origin: center;
+			}
+			#loading::before {
+				background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiCiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiCiAgIHhtbG5zOmlua3NjYXBlPSJodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy9uYW1lc3BhY2VzL2lua3NjYXBlIgogICB3aWR0aD0iMjcyLjMyNTE2IgogICBoZWlnaHQ9IjMxMy4zODk0NyIKICAgaWQ9InN2ZzM5NzEiCiAgIHZlcnNpb249IjEuMSIKICAgaW5rc2NhcGU6dmVyc2lvbj0iMC40N3ByZTQgcjIyNDQ2IgogICBzb2RpcG9kaTpkb2NuYW1lPSJOZXcgZG9jdW1lbnQgNiI+CiAgPHRpdGxlCiAgICAgaWQ9InRpdGxlNDAwMyI+VHdlbnR5LVNpZGVkIERpY2U8L3RpdGxlPgogIDxkZWZzCiAgICAgaWQ9ImRlZnMzOTczIiAvPgogIDxzb2RpcG9kaTpuYW1lZHZpZXcKICAgICBpZD0iYmFzZSIKICAgICBwYWdlY29sb3I9IiNmZmZmZmYiCiAgICAgYm9yZGVyY29sb3I9IiM2NjY2NjYiCiAgICAgYm9yZGVyb3BhY2l0eT0iMS4wIgogICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwLjAiCiAgICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTp6b29tPSIwLjM1IgogICAgIGlua3NjYXBlOmN4PSItMzc3LjQwODg1IgogICAgIGlua3NjYXBlOmN5PSIxNTYuNjk0NzMiCiAgICAgaW5rc2NhcGU6ZG9jdW1lbnQtdW5pdHM9InB4IgogICAgIGlua3NjYXBlOmN1cnJlbnQtbGF5ZXI9ImxheWVyMSIKICAgICBzaG93Z3JpZD0iZmFsc2UiCiAgICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxMjgwIgogICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9Ijk1MCIKICAgICBpbmtzY2FwZTp3aW5kb3cteD0iMCIKICAgICBpbmtzY2FwZTp3aW5kb3cteT0iMjUiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMSIgLz4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGEzOTc2Ij4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICAgIDxjYzpsaWNlbnNlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9wdWJsaWNkb21haW4vIiAvPgogICAgICAgIDxkYzp0aXRsZT5Ud2VudHktU2lkZWQgRGljZTwvZGM6dGl0bGU+CiAgICAgICAgPGRjOmNyZWF0b3I+CiAgICAgICAgICA8Y2M6QWdlbnQ+CiAgICAgICAgICAgIDxkYzp0aXRsZT5CcmlhbiBCdXJnZXIvV2lyZWxpemFyZCBEZXNpZ248L2RjOnRpdGxlPgogICAgICAgICAgPC9jYzpBZ2VudD4KICAgICAgICA8L2RjOmNyZWF0b3I+CiAgICAgICAgPGRjOmRlc2NyaXB0aW9uPlR3ZW50eS1zaWRlZCBkaWNlIChkMjApIGFzIHVzZWQgaW4gUlBHcyBhbmQgd2FyZ2FtaW5nLjwvZGM6ZGVzY3JpcHRpb24+CiAgICAgIDwvY2M6V29yaz4KICAgICAgPGNjOkxpY2Vuc2UKICAgICAgICAgcmRmOmFib3V0PSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9wdWJsaWNkb21haW4vIj4KICAgICAgICA8Y2M6cGVybWl0cwogICAgICAgICAgIHJkZjpyZXNvdXJjZT0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjUmVwcm9kdWN0aW9uIiAvPgogICAgICAgIDxjYzpwZXJtaXRzCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyNEaXN0cmlidXRpb24iIC8+CiAgICAgICAgPGNjOnBlcm1pdHMKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL25zI0Rlcml2YXRpdmVXb3JrcyIgLz4KICAgICAgPC9jYzpMaWNlbnNlPgogICAgPC9yZGY6UkRGPgogIDwvbWV0YWRhdGE+CiAgPGcKICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSIKICAgICBpbmtzY2FwZTpncm91cG1vZGU9ImxheWVyIgogICAgIGlkPSJsYXllcjEiCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTI0Ni42OTQ1NiwtMzc1LjY2NzQ1KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6I2QwMDAwMDtmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZSIKICAgICAgIGQ9Im0gMzc5LjkzMDA5LDM3NS42NjgxOSBjIC0wLjU3MDQyLDAuMDE5NCAtMS4yMjYxMywwLjIyODExIC0xLjU4NTM2LDAuNzMxNzQgbCAtODAuNjczMDksOTYuNTI3MzkgYyAtMS4zNDI0NiwxLjY4MDY0IC0xLjQzMzE0LDIuMDU1NjggMC4zNjU5LDIuMDczMjUgbCAxNjEuNTkwMTcsLTAuNDI2OTUgYyAyLjIyMDc4LC0wLjE4MTQ2IDIuMjMwNTQsLTAuMDcwMiAwLjc5MjY1LC0xLjk1MTI4IGwgLTc5LjI3MDcsLTk2LjUyNzIxIGMgLTAuMTYzODksLTAuMjU1MjEgLTAuNjQ4NzQsLTAuNDQwOTcgLTEuMjE5NTcsLTAuNDI2OTQgeiBtIDE1LjQ4ODQyLDguNTk3OTIgNzIuNzQ2MDksODguNDc4MTggYyAwLjk3NDQ0LDEuMTgxNyAxLjIxMTk0LDEuMjQ4ODQgMi45MjY5NywwLjQyNjk1IGwgMzguMzU0NjIsLTE3LjU2MTUxIGMgMi41MTIzMywtMS4xMzM4OCAyLjE2NDIsLTEuMzY2MSAwLjQ4Nzg0LC0yLjUwMDE3IEwgMzk1LjQxODUxLDM4NC4yNjYxMSB6IG0gLTMzLjk2NDQyLDMuMjMxNzEgYyAtMC4wMzQsLTAuMDcyMiAtMC42MjU1LDAuMzY5OTUgLTEuOTUxMzMsMS4yODA2MiBsIC0xMDUuNjEyODQsNjkuNTE0MyAzMy4wNDk3MywxNS4wMDA0NSBjIDEuNzI0MTMsMC41Njg0MiAyLjIzOTE3LDAuNTk4ODUgMy4zNTM2MywtMC43OTI3OSBsIDY5LjY5NzQsLTgzLjIzNDE0IGMgMC45ODIzOCwtMS4xMzY2MiAxLjQ5NjE1LC0xLjY5NjI0IDEuNDYzNDEsLTEuNzY4NDQgeiBtIDMzLjQxNTYyLDM1LjI0NDk2IGMgNC42Njg0NSwyZS00IDguNDA1ODksMS42MDk2MSAxMS4xNTg4Myw0LjgxNzMyIDIuNzUxNjcsMy4xOTE3MiA0LjMwNDY5LDcuNzUxODUgNC42OTUzOSwxMy42NTg5NSAwLjM4OTIsNS44OTEzIC0wLjU5ODMzLDEwLjQ1MTI2IC0yLjkyNzA0LDEzLjY1ODk1IC0yLjMyOTg0LDMuMTkxNzEgLTUuODE5NjIsNC43NTYyNCAtMTAuNDg4MDYsNC43NTYyNCAtNC42ODQ2MiwwIC04LjQwNzI1LC0xLjU2NDUzIC0xMS4xNTg5OSwtNC43NTYyNCAtMi43NTI2OSwtMy4yMDc2OSAtNC4zMDU3NCwtNy43Njc2NSAtNC42OTUxNiwtMTMuNjU4OTUgLTAuMzkwNywtNS45MDcxIDAuNTk3MDYsLTEwLjQ2NzIzIDIuOTI2ODksLTEzLjY1ODk1IDIuMzI4NzIsLTMuMjA3NzEgNS44MDM0NCwtNC44MTcxMiAxMC40ODgxNCwtNC44MTczMiB6IG0gLTMwLjY3MTc5LDAuMzY1ODcgYyA0LjI1NTgsMmUtNCA3LjQ0NjY2LDAuOTMxMzQgOS41MTI1MSwyLjgwNDk3IDIuMDgxNywxLjg3MzgxIDIuODI1NjEsNC40NTQ1OCAyLjMxNzA4LDcuODA1MTEgLTAuMjkzOTQsMS45Mzc0MyAtMS4wNjEyMiwzLjc0MzkzIC0yLjMxNzA4LDUuNDI3MDkgLTEuMjUzNDYsMS42NjczNiAtMy42ODMsMy45NTc3OCAtNy4zMTcyNiw2Ljc2ODQxIGwgLTguNTk3NzQsNi42NDY2MiAxNS42MTAyMSwwIC0wLjk3NTYzLDYuNzA3NTMgLTI1Ljg1NDQzLDAgMS4wMzY1OCwtNi43MDc1MyAxNC42OTU2LC0xMS40NjM3NCBjIDEuMzE4MDYsLTEuMDQ4MDMgMi4zNDEwOCwtMi4wNDg0NiAzLjA0ODg1LC0zLjA0ODg4IDAuNzA3NTMsLTEuMDAwNDIgMS4xMTY1MiwtMi4wOTA5OSAxLjI4MDQyLC0zLjE3MDg0IDAuMjUzMTEsLTEuNjY3MzUgLTAuMDY0MiwtMy4wMDgyNyAtMS4wMzY0LC00LjAyNDUgLTAuOTU3NTYsLTEuMDE2MjIgLTIuNDEwNjcsLTEuNTI0MzQgLTQuMjY4NTgsLTEuNTI0NTMgLTEuNDI5MjQsMS45ZS00IC0zLjAyNDE5LDAuMzU2NDkgLTQuODE3MjcsMC45NzU2MyAtMS43OTA3MSwwLjYwMzU0IC0zLjczMzMzLDEuNDc2MzQgLTUuODUzODYsMi42ODMwMiBsIDEuMTU4NywtNy44MDUxMiBjIDIuMTY3OTEsLTAuNjgyNzcgNC4yNzE5NywtMS4xNzUwNyA2LjM0MTcxLC0xLjUyNDM0IDIuMDcyMDIsLTAuMzY1MjcgNC4wOTkzNiwtMC41NDg3IDYuMDM2NTksLTAuNTQ4OSB6IG0gMzEuMDk4NjMsNS45MTQ5MiBjIC0xLjk2OTEsMCAtMy4zMDM2NSwwLjkxNzg3IC00LjAyNDU2LDIuNzQzODkgLTAuNzIxOTYsMS44MTA0IC0wLjk2NDcsNC45NDQzNCAtMC42NzA2OSw5LjM5MDUyIDAuMjk3MDMsNC40OTM5OSAwLjkyNjgyLDcuNjA5NiAxLjg5MDE1LDkuNDUxNjEgMC45NjM0MywxLjg0MjAxIDIuNDIxNDQsMi44MDQ5NSA0LjM5MDQ2LDIuODA0OTUgMS45NTMyMywwIDMuMzA0NjYsLTAuOTYyOTQgNC4wMjQ0OCwtMi44MDQ5NSAwLjcxOTgxLC0xLjg0MjAxIDAuOTY3ODYsLTQuOTU3NjIgMC42NzA4MywtOS40NTE2MSAtMC4yOTQwOSwtNC40NDYxOCAtMC45MjkyNiwtNy41ODAxMiAtMS44OTAzOCwtOS4zOTA1MiAtMC45NDYzOSwtMS44MjYwMiAtMi40MjEzOCwtMi43NDM4OSAtNC4zOTAyOSwtMi43NDM4OSB6IG0gLTg3LjY4NTcxLDQuOTM5MDkgYyAwLjg0NTQyLDAgMS40MzkxNCwwLjIxMTcgMS43MDczMSwwLjY3MDgzIDAuNTMwNSwwLjkxMzIxIC0wLjE0MDM0LDIuNjkzNzQgLTEuOTUxMTcsNS40MjY5IC0xLjgxNjU0LDIuNzQyOTEgLTMuOTAyNjYsNS4wNzQ4OCAtNi4yODA2OCw2Ljk1MTQzIC0yLjM4NDM0LDEuODcxNDcgLTUuMDIxNjYsMy4yNzk3IC03Ljg2NjEzLDQuMjA3NTQgLTEuODQ0ODIsMC42MDE3OCAtMy4xMTc3MiwwLjc1OTYzIC0zLjg0MTQyLDAuNDI2NzQgLTAuNzMwMzQsLTAuMzM3OTYgLTAuODk4NjcsLTEuMTgxODggLTAuNDg3ODUsLTIuNDM5MSAtMS4zNzQyNCwxLjQ1MzMyIC0yLjgwOTU5LDIuNzE0MDQgLTQuMzI5NSwzLjcxOTcyIC0xLjUxOTY4LDEuMDA1NTEgLTMuMDY4MDIsMS43ODY0MSAtNC42OTUxNSwyLjMxNzE0IC0yLjQyMTc3LDAuNzg5ODkgLTMuODgwMTcsMC43MzIzMiAtNC4yNjg0MiwtMC4xODM0MSAtMC4zODg1NSwtMC45MTUxNCAwLjMwODA0LC0yLjY3MDkxIDIuMDEyMTIsLTUuMjQ0MDYgMS42OTE2NCwtMi41NTQyMyAzLjU4MzMxLC00LjcyMDkyIDUuNzMxOTgsLTYuNDYzNjIgMi4xMzU3MywtMS43Mzg1OCA0LjQ1NjEzLC0yLjk4NjYxIDYuODkwNDksLTMuNzgwNiAxLjYyNzEzLC0wLjUzMDc0IDIuNzYyNDYsLTAuNjcwNDQgMy40MTQ3NCwtMC4zNjU4NiAwLjY1ODQsMC4yOTUwNCAwLjgxMTM0LDEuMDIzNjQgMC40ODc3NywyLjEzNDEyIDEuNDg2ODYsLTEuNjA4MDYgMy4wNTg1NCwtMi45NjI2MyA0Ljc1NjM0LC00LjA4NTM5IDEuNjkxMTcsLTEuMTI4MDQgMy40NTk5MiwtMi4wMjAxNiA1LjMwNDksLTIuNjIyMTQgMS40MjIyNywtMC40NjM4MiAyLjU2OTQsLTAuNjY4MyAzLjQxNDY3LC0wLjY3MDY1IHogbSAxNjIuNzQ4OTUsMS40NjM0NSBjIDEuNDUxNTksMS4yMTQ2NyAyLjc5Mjg3LDIuNDcwOTEgNC4wMjQ0OCwzLjY1ODY0IDEuMjQwODgsMS4xODc3NCAyLjM2NzU0LDIuMzMzNTIgMy4zNTM2NCwzLjQ3NTgxIDIuMTY2MzMsMi41MDkzNSAzLjMxODIxLDQuNDYwNjIgMy40MTQ4MSw1Ljg1MzgzIDAuMTA1MzIsMS40MDI1OSAtMC44Mzg0NSwyLjEyMDg1IC0yLjgwNTA4LDIuMTM0MTIgLTEuMTM2OSwwIC0yLjQ2NjIxLC0wLjMzMTMyIC0zLjk2MzM3LC0wLjkxNDU3IC0xLjQ4ODA1LC0wLjU4MzIzIC0zLjg1MjA0LC0xLjc3ODM5IC03LjEzNDQyLC0zLjY1ODYzIGwgLTcuODA1MTMsLTQuNDUxNDcgNy45ODgxOCw5LjIwNzY5IC0zLjk2MzYyLDAuMDYwNSAtMTMuMTcxMTcsLTE1LjI0NDM2IDMuOTYzNTMsLTAuMDYwNSAxMy4zNTQwMiw3LjYyMjI3IGMgMS4yMDUzNiwwLjY3OTI0IDIuMjM5NzEsMS4yMDA2MiAzLjEwOTk0LDEuNTI0MzQgMC44NzAxNSwwLjMyMzkyIDEuNjIyMzgsMC40OTIxMSAyLjI1NjA0LDAuNDg3ODIgMC45Nzg1NiwwIDEuNDQwOTEsLTAuMzY3ODIgMS40NjM1NywtMS4wMzY1MiAwLjAzMSwtMC42NTk1NCAtMC4zOTU3NywtMS41MjY0OCAtMS4zNDE1MywtMi42MjIxMiAtMC43Mjc1LC0wLjg0MjU3IC0xLjY5ODYsLTEuODA1NTIgLTIuOTI2OTUsLTIuODA0OTcgLTEuMjE5MDksLTAuOTk5NDQgLTIuNjk1ODgsLTIuMDMzMjMgLTQuMzkwNDUsLTMuMTcwODIgbCA0LjU3MzUxLC0wLjA2MDUgeiBtIC0xNjguMTc1NzQsNC4wODU1OCBjIC0wLjQ1MjUsMC4wNDI5IC0xLjA2MzYsMC4xMzY1OCAtMS43Njg1LDAuMzY1ODYgLTEuNDIyMDQsMC40NjM4MyAtMi42ODE2MSwxLjExMDY3IC0zLjc4MDY0LDEuODkwMjIgLTEuMTExNjIsMC43ODM4MSAtMi4wMTQ5OCwxLjY3NDU3IC0yLjY4Mjk1LDIuNjgzMDEgLTAuNjc0MTgsMS4wMTc5NiAtMC44MjA3OSwxLjcxMjIzIC0wLjQyNjc1LDIuMDEyMzQgMC4zOTM3NywwLjMwMDExIDEuMzM0NDYsMC4yMTU4IDIuNzQzODksLTAuMjQzOTIgMS40MDkzNiwtMC40NTk3MiAyLjY2MjY3LC0xLjA5NzAxIDMuNzgwNTUsLTEuODkwMzkgMS4xMDUyOCwtMC43ODg4OSAyLjAwODg4LC0xLjcyNTkgMi42ODMwMywtMi43NDM4OCAwLjY2Nzk5LC0xLjAwODQzIDAuODE0MjEsLTEuNjU2NDYgMC40MjY5MiwtMS45NTEyOCAtMC4yMDAxOCwtMC4xNDQ0MSAtMC41MjMyOCwtMC4xNjM5MiAtMC45NzU1NSwtMC4xMjEwMSB6IG0gLTEzLjIzMjIsNC42MzQyOSBjIC0wLjM2MjQxLDAuMDI3NCAtMC44MzIzNSwwLjExODk3IC0xLjQwMjQ2LDAuMzA0OCAtMS4xNDAzMSwwLjM3MjA5IC0yLjE0MDksMC45MjcyMyAtMy4wNDg3NywxLjU4NTM5IC0wLjkyMTAyLDAuNjYyNDYgLTEuNjk0NTgsMS40MDgwNiAtMi4yNTYzNiwyLjI1NjI4IC0wLjU3NDIzLDAuODY3MTQgLTAuNzI5NzQsMS40MzY3MiAtMC40MjY3NywxLjcwNzM2IDAuMzA5MDcsMC4yNjEyOCAxLjA2NzU4LDAuMTg1MzcgMi4xOTUyOCwtMC4xODM0MiAxLjE0MDI5LC0wLjM3MTkyIDIuMTI3ODIsLTAuODYyMDcgMy4wNDg4NCwtMS41MjQ1MyAwLjkyNzA1LC0wLjY3MTg0IDEuNjgxODIsLTEuNDQ5OTkgMi4yNTU5NywtMi4zMTcxNCAwLjU2MTg2LC0wLjg0ODIzIDAuNzM2MTQsLTEuMzg1MDIgMC40MjY5OSwtMS42NDYzIC0wLjE1NDE0LC0wLjEzMDY5IC0wLjQzMDQ4LC0wLjIxMDU1IC0wLjc5MjcyLC0wLjE4MzQzIHogbSAyMjYuMTA0MjYsMTUuNjEwMjEgYyAtMC4zMjgxNywwLjAyMzUgLTAuODQ1OTgsMC4yMTIzMSAtMS42NDYzMSwwLjU0ODcgbCAtMzkuMzkxNDMsMTcuOTg4NDUgYyAtMS4zOTg2NSwwLjYzNDk0IC0xLjMxMDYsMS40OTA1OSAtMC43OTI3MSwyLjU2MTA2IGwgNDUuNzk0MDYsMTE2LjE2MTkxIC0zLjI5MjY5LC0xMzUuMzA4ODMgYyAtMC4xMDE1LC0xLjQ3OTY2IC0wLjEyMjkyLC0xLjk5MDUxIC0wLjY3MDkyLC0xLjk1MTI5IHogbSAtMjY0LjE1NDE3LDMuNTk3NTggLTQuMjA3MzgsMTMxLjY1MDM4IDM4Ljc4MTYxLC0xMTMuOTA1ODUgYyAwLjU3Mjg5LC0xLjY4MjE5IDAuNTU5NDEsLTEuNzY3MjYgLTAuNjA5ODIsLTIuMzE3MTQgbCAtMzMuOTY0NDEsLTE1LjQyNzM5IHogbSAyMTAuODU5OTQsMTcuMDczNjggLTE2NS4yNDg5MywwLjQyNjk1IGMgLTIuMzYxNiwtMC4wMzUxIC0yLjI2MzgyLC0wLjAzMzEgLTEuMDk3NSwxLjg5MDIgbCA4My45MDQ5MSwxNDEuNTI4NzIgYyAxLjQxNjk2LDIuMTU5NyAxLjI2NTQ0LDIuMDkxNzcgMi43NDM5OSwtMC4xMjEgbCA4MC42MTIyOCwtMTQxLjc3MjY1IGMgMC43MDU1NiwtMS4xMjYwOSAxLjIxMDg1LC0xLjkxNDAxIC0wLjkxNDc1LC0xLjk1MTI5IHogbSA2LjU4NTU2LDMuNzE5NzMgYyAtMC4xNTIyNSwwLjA2NDUgLTAuMzE4NTksMC42MzgyNiAtMC43OTI2NSwxLjUyNDM1IGwgLTgxLjE2MTAzLDE0Mi44MDkxNCBjIC0wLjg4NTUxLDEuNTA3NTYgLTEuMDk2MDksMi4wNDc4NyAxLjAzNjY1LDEuNzA3MzcgbCAxMjguODQ1MjUsLTE3Ljc0NDMzIGMgMi4wNDM0MywtMC40NjY1NCAxLjk4MTM4LC0xLjE5NzMgMS4yODA2NiwtMy4yMzE5IEwgNDY4Ljk1NzE2LDQ4NS43MzI2IGMgLTAuMzIxNSwtMS4xODI4OCAtMC40NTY5NCwtMS42NDk0MiAtMC42MDk3MiwtMS41ODU0MiB6IG0gLTE3OC4xNzYxMiwxLjM0MTUxIGMgLTAuMTU4MDEsMC4xMTMxMSAtMC4zMDAxMSwwLjcxNDk1IC0wLjYwOTgxLDEuNTg1NCBsIC00MS4xNTk2MiwxMjEuMTYyMDcgYyAtMC43MDA4NywyLjU3NDE0IC0wLjc4MDEzLDMuNTQxMTggMS44MjkzLDQuMDI0NTMgbCAxMjMuMTEzNDMsMTcuODA1NCBjIDIuMzI4MDEsMC4zNDk4NyAyLjAzMDI3LC0wLjgyMjY1IDEuNDYzNCwtMS45NTEyNiBMIDI5MS4wMjQ5OSw0ODYuNzY5MTIgYyAtMC41MjczMiwtMS4wNjc3NiAtMC42OTYzNywtMS4zOTQgLTAuODUzNjcsLTEuMjgwNDMgeiBtIDIyNC4wMzExMywxLjU4NTQgMC4yNDM5MSw1LjA2MTAyIC00LjE0NjM1LDIuNjgzMDEgMC45NzU1NSwxOC4zNTQzMiA0LjE0NjQ0LC00LjA4NTYgMC4zMDUwMyw1LjAwMDE2IC00LjIwNzU0LDQuMDI0NTIgLTQuNDUxMzEsMi44NjYwMyAtMS4yMTk1NywtMjMuMzU0NDYgLTEuOTUxMTcsMS4yMTk1NCAwLjA2MDIsMS40NjM0NiBjIC0wLjkxMzE3LC0wLjEyNjg2IC0xLjgwMzE0LC0wLjA3MDMgLTIuNjgyOTUsMC4xMjEwMSAtMC44ODc0MywwLjIxMDE1IC0xLjcyMzk3LDAuNTY1NjggLTIuNTYxMDgsMS4wOTc1OSAtMS4yNDM1NiwwLjc5MDI3IC0yLjE4MTMxLDEuNzE0NCAtMi44MDQ5MiwyLjgwNDk3IC0wLjYzMTc2LDEuMDk1ODMgLTAuOTE4NDksMi4yODEwNCAtMC44NTM3NSwzLjUzNjY4IDAuMDY1OCwxLjI5MzkxIDAuNDQxODIsMi4wMzA1MSAxLjE1ODU1LDIuMjU2MjggMC43MDkxOSwwLjI0MzUyIDEuNzI0MiwtMC4wMTk0IDMuMDQ4ODQsLTAuODUzNjkgbCAxLjg5MDQ4LC0xLjIxOTU2IDAuMjQzODQsNC43NTYyNiAtMS45NTEyNSwxLjIxOTUzIGMgLTEuMTc4NTEsMC43NDg3MiAtMi4wNzQ0MiwxLjYyMzQ4IC0yLjYyMjA5LDIuNTYxMDYgLTAuNTQ2OTksMC45NTAwNyAtMC43OTI0MywxLjk5MTA3IC0wLjczMTc5LDMuMTcwODMgMC4wNTYyLDEuMDkwNzUgMC4zODQyLDEuNzcyMzQgMC45NzU1NSwyLjAxMjE2IDAuNTkxNjYsMC4yMzk3OSAxLjQxNTEzLDAuMDQwOSAyLjQzOTEsLTAuNjA5NzggMC43NTU5NSwtMC40ODAyIDEuNDk3ODgsLTEuMTMzMTEgMi4yNTYzNiwtMS44OTAyMSAwLjc1ODQzLC0wLjc1NzA5IDEuNTE4ODEsLTEuNjE2NjMgMi4yNTYwNiwtMi42MjIxMyBsIDAuMjQzODUsNS4zNjYwMyBjIC0wLjkwNTUsMC45OTQ3NiAtMS43ODI5NCwxLjg0MDYzIC0yLjY4Mjk3LDIuNjIyMTIgLTAuODk5OTQsMC43ODEzIC0xLjgwNTA0LDEuNDU0NDcgLTIuNjgzMDMsMi4wMTIxNiAtMi4zNjUxLDEuNTAyODcgLTQuMTMyODEsMi4wNTkzOSAtNS4zNjYsMS41ODU0MiAtMS4yNDA1NSwtMC40NTYwMSAtMS45NDc3OCwtMS44OTM5MyAtMi4wNzMyMiwtNC4zMjkzIC0wLjA4NTQsLTEuNjYxNzIgMC4xMDM1MywtMy4yMTI1OSAwLjYwOTc1LC00LjYzNDMgMC41MDY1NSwtMS40MDkyIDEuMzAzMTUsLTIuNzEzMjYgMi4zNzgxNiwtMy44NDE2NyAtMS4yNTI4NCwwLjI4NTI3IC0yLjIyOTY1LDAuMDM1MiAtMi45MjY4LC0wLjc5MjYxIC0wLjcwNDg1LC0wLjgwOTc4IC0xLjA2MTM4LC0yLjEzNDUgLTEuMTU4NywtNC4wMjQ1IC0wLjE0NDM5LC0yLjgxNTg5IDAuNDAxNDcsLTUuMzk0OTEgMS43MDczNCwtNy43NDQyNCAxLjMwNjU2LC0yLjMzNjY2IDMuMzI2MjEsLTQuMzUzMTEgNS45NzU4LC02LjAzNjY4IDAuOTM0NjYsLTAuNTkzOTcgMS44NDk4MywtMS4xMDUzOCAyLjgwNDkzLC0xLjQ2MzQ1IDAuMTk1MzQsLTAuMDc2IDAuNDEyNDgsLTAuMTE3MDYgMC42MDk4MSwtMC4xODM0MiBsIDAuMDYwMiwtMC4wNjA1IDEyLjY4MzMzLC04LjA0OSB6IG0gLTI1OS44MjQ3NSw5Ljg3ODM0IGMgMC42MjE3LC0wLjA0MDkgMS4yNzM1MywwLjE2MTk2IDIuMDEyMiwwLjYwOTc3IDEuNjI4NCwwLjk4NjM3IDIuODE5NjYsMi44MzYgMy41MzY2Myw1LjU0ODg1IDAuMDQ1MSwwLjE3MTczIDAuMDgxNywwLjM3MjUgMC4xMjA5OSwwLjU0ODkgbCAwLjI0Mzg1LC0zLjIzMTkxIDguNzgwODIsNS4zMDUxNSAtMC4zNjU4OSw0LjQ1MTI1IC0yLjg2NTc5LC0xLjcwNzM3IC0xLjI4MDY2LDE1Ljk3NjA5IDIuOTg3OTksMC42MDk3NyAtMC4zMDQ5NCw0LjMyOTUgLTMuMDQ5MDEsLTAuNTQ4ODkgLTMuMDQ4ODYsLTEuODkwMiAxLjY0NjU1LC0yMC4zNjY0NyAtMi41MDAyMSwtMS40NjM0NiBjIDAuMzc0OTMsMi4zMzU4NiAwLjQ5NzQ0LDUuMDI2MTEgMC4yNDM5Myw4LjEwOTkgLTAuMzM2ODEsNC4wOTc2OCAtMS4xNDUwNyw2Ljk1MjYgLTIuMzc4MDEsOC42NTg3OSAtMS4yMzkzOCwxLjcxNDAxIC0yLjc1NDgzLDIuMDE2MjcgLTQuNTczNDMsMC45MTQ3NyAtMC41NzYxNSwtMC4zNDkwOSAtMS4xMTgwNSwtMC43NzQ2NiAtMS42NDYyNCwtMS4yODA2MiAtMC41MjgyNywtMC41MDU5NyAtMS4wODMwMSwtMS4wOTE5NCAtMS41ODU1MywtMS43NjgyNSBsIDAuMzY1OTgsLTQuNTczNDEgYyAwLjQ5MDQ3LDAuODIwNTEgMS4wMTI0NywxLjQ5NTA5IDEuNDYzNCwyLjAxMjM1IDAuNDQ5ODksMC41Mjg0MSAwLjg5MzkyLDAuOTQ4MzIgMS4zNDE1MywxLjIxOTU2IDAuOTYyMzgsMC41ODI4NCAxLjc1MzQ0LDAuNDkzODUgMi4zNzgwOCwtMC4yNDM5MSAwLjYyMzY4LC0wLjcyNjY2IDEuMDE5ODQsLTIuMTE4NzEgMS4yODA1OCwtNC4xNDY0NiAtMC40MTQwOCwwLjMxODgyIC0wLjgyOCwwLjQ4Mjk0IC0xLjI4MDU4LDAuNDg3ODEgLTAuNDUzNzcsMC4wMTk1IC0wLjk1NDIzLC0wLjExOTEgLTEuNDYzNDksLTAuNDI2OTQgLTEuMjgxMzcsLTAuNzc2MDQgLTIuMjA0NjEsLTIuMTI2OSAtMi44NjU4NSwtNC4wODUzOSAtMC42NjcyLC0xLjk2MjAyIC0wLjkyOTUxLC00LjE4MjM4IC0wLjczMTc5LC02LjU4NTU3IDAuMjE4NDEsLTIuNjU3ODUgMC44MTg4LC00LjUzNjM0IDEuODI5MywtNS42MDk5MSAwLjUwNDg4LC0wLjUzMTM0IDEuMDg1NTQsLTAuODExNzQgMS43MDc0LC0wLjg1MzcgeiBtIDAuOTE0NDQsNC40NTEyNyBjIC0wLjIyNzI3LDAuMDUwNiAtMC40NDAwNiwwLjIxMjY3IC0wLjYwOTU3LDAuNDg3ODEgLTAuMzQ1NTMsMC41NTgwNSAtMC41NTE0OCwxLjUzNzIgLTAuNjcwNzYsMi45ODc5OCAtMC4xMTkxLDEuNDUwNzggLTAuMTAzMywyLjY0Mzk5IDAuMTIxMDEsMy41MzY3IDAuMjE5NjcsMC45MDAzMiAwLjY0ODgsMS41NDQ2NCAxLjIxOTYzLDEuODkwMiAwLjU2NDk3LDAuMzQyNDYgMC45OTU4NCwwLjE5MzE5IDEuMzQxNDQsLTAuMzY1ODUgMC4zMzkwMSwtMC41NTAyNyAwLjU1MTQ5LC0xLjUzNzA0IDAuNjcwNjcsLTIuOTg3ODEgMC4xMTkxLC0xLjQ1MDc3IDAuMDk3NiwtMi42MzYzNyAtMC4xMjEwMSwtMy41MzY2OSAtMC4yMjYxNywtMC44OTI3MSAtMC41OTM0MSwtMS40ODcwNyAtMS4xNTg0NiwtMS44MjkzMSAtMC4yODU0NCwtMC4xNzM2OSAtMC41NjUyNywtMC4yMzQxNyAtMC43OTI4NywtMC4xODM0NCB6IG0gOTYuODMyMjYsOS4wMjQ2NCA4LjY1ODg1LDAgMCw2LjQ2MzYxIDE1Ljc5MzIyLDAgMCw3Ljg2NjIxIC0xNC4yNjg3MSwyMS4yMjAxMyAtMTAuMTgzMzYsMCAwLC0yMi40Mzk3IC01LjA2MTA0LDAgMCwtNi42NDY2NCA1LjA2MTA0LDAgMCwtNi40NjM2MSB6IG0gMzAuMDAwOTYsMCAyNC44MTc5NSwwIDAsNi4zNDE2NyAtOC4wNDkwNCwwIDAsMjIuOTg4NiA4LjI5Mjc5LC0xLjcwNzM4IDAsNi4yMTk3IC04LjI5Mjc5LDEuNzA3MzYgLTguNzE5OTUsMCAwLC0yOS4yMDgyOCAtOC4wNDg5NiwwIDAsLTYuMzQxNjcgeiBtIC0yMS4zNDIxMSwxMy4xMTAyNSAwLDE0LjkzOTM5IDEwLjA2MTMyLC0xNC45MzkzOSAtMTAuMDYxMzIsMCB6IG0gLTYxLjI4MjI0LDI2Ljg5MDk2IDUuNzMxODksNy44MDUxMSAtMi42ODMwMywxLjc2ODQ1IGMgMC40MTM5LDAuMDkzNyAwLjc5NzA3LDAuMTYzOTEgMS4yMTk1NCwwLjMwNDc4IDMuMzY3MzUsMS4xMzU4NSA2LjQ2NTU4LDMuNjQ3MTQgOS4yNjg1OSw3LjQzOTI1IDMuMDg5NDMsNC4xODAwMiA0LjMzNTM4LDguMTI5NjIgMy43MTk1NCwxMS45NTE1OCAtMC42MzgxMSwzLjgxNTUzIC0zLjExNTQxLDcuMTMyNzEgLTcuMzc4Miw5LjkzOTQ0IC00LjM2OTA1LDIuODc2NTYgLTguNzY1NzUsMy44MzYyIC0xMy4yMzIxMywyLjgwNDk1IC00LjQ4ODc5LC0xLjAzNzg4IC04LjQ0MDIsLTMuOTI5NDcgLTExLjg5MDYsLTguNTk3OTEgLTEuMDkzNDYsLTEuNDc5NDcgLTIuMDg2MDYsLTIuOTMzNTcgLTIuOTI2ODksLTQuNDUxMjYgLTAuODQwOTgsLTEuNTE3NyAtMS41NjQ1MiwtMy4wODE4NiAtMi4xOTUxOCwtNC42OTUzOCBsIDQuODc4MjMsLTMuMjMxNjkgYyAwLjQ3NzIyLDEuNzE0NCAxLjA2MzM0LDMuMjY0NDkgMS43MDczMiw0LjYzNDI4IDAuNjMxOTMsMS4zNzc2IDEuMzQ1OCwyLjYzMTQ5IDIuMTk1MTcsMy43ODA2MSAxLjgyNjA2LDIuNDcwNTIgMy44MjI4OSw0LjAwMTY4IDUuOTc1NzUsNC42MzQyNyAyLjE0MDk4LDAuNjQwNDEgNC4zNzg3MSwwLjM3Nzk3IDYuNzY4MzgsLTAuODUzNjYgLTEuMjc5MTUsLTAuNTY3MDYgLTIuNDM1NzIsLTEuMzM2ODUgLTMuNTM2NjMsLTIuMjU2MjcgLTEuMTEyNzIsLTAuOTExNjQgLTIuMTQzNjYsLTIuMDQ2NTEgLTMuMTA5NywtMy4zNTM2OCAtMi40MzEzNSwtMy4yODk0NiAtMy42MzI4NCwtNi40NTk3IC0zLjUzNjc4LC05LjUxMjQ3IDAuMDg1NiwtMy4wNjcyMSAxLjQwMTExLC01LjQ0NzM4IDMuOTYzNTMsLTcuMTM0NDcgMC43MDg1NiwtMC40NjYzNSAxLjQ1MjYzLC0wLjgxODE2IDIuMTk1MSwtMS4wOTc1OSBsIC0zLjk2MzM4LC01LjM2NjAxIDYuODI5NDgsLTQuNTEyMzMgeiBtIDE1NS42MTQ0NSwxMS4yODA5MyA2LjY0NjQyLDUuMTIyMTEgMTAuNjEwMTEsMjQuODc4NzkgLTUuMzA0OTgsNy44NjYgLTE5LjE0NjkxLC0xNC42MzQ1OSAtMi42MjIxLDMuOTAyNTUgLTUuNjcwODcsLTQuMzI5MzEgMi42ODMwNCwtMy45NjM2MyAtNS41NDg5OCwtNC4yMDczNSA0LjU3MzM2LC02LjcwNzUxIDUuNDg3ODcsNC4yNjg0MyA4LjI5MzA0LC0xMi4xOTU0OSB6IG0gLTE1MS4wNDEyNSw2LjE1ODYxIGMgLTEuMDMzMDIsMC4wNjgzIC0yLjEzMjU4LDAuNTE2NyAtMy4yOTI3OCwxLjI4MDYzIC0xLjU0Njc3LDEuMDE4MzYgLTIuMzk2LDIuMTE1NzkgLTIuNjIxOTQsMy4zNTM2NyAtMC4yNDg2MSwxLjIzMTQ1IDAuMTM2NTUsMi42MjAzNiAxLjIxOTQ4LDQuMDg1NTggMS4wNzIzMSwxLjQ1MDc4IDIuMjc2ODIsMi4yODA2NSAzLjU5NzY1LDIuNDk5OTggMS4yOTgzMywwLjIxMjg4IDIuNzIxNjIsLTAuMjAwOTggNC4yNjgzOSwtMS4yMTk1NiAxLjU0NzAyLC0xLjAxODM2IDIuNDM0NiwtMi4xMjI0IDIuNjgzMDUsLTMuMzUzNjUgMC4yMjYxNywtMS4yMzc4OSAtMC4xNDgyOSwtMi42MzQ4IC0xLjIxOTQ4LC00LjA4NTU4IC0xLjA4MywtMS40NjUwMiAtMi4yOTkzMSwtMi4yODcwOSAtMy41OTc2NCwtMi41IC0wLjMzMDQsLTAuMDU0NyAtMC42OTIzMiwtMC4wODM5IC0xLjAzNjczLC0wLjA2MDQgeiBtIDE1My42NjMxMSwyLjYyMjE1IC01LjI0Mzk2LDcuNzQ0MDIgMTIuNjgzMjYsOS43NTY0MSAtNy40MzkzLC0xNy41MDA0MyB6IG0gLTE5OS41NzkwNiw0OC44NDI4MyAxMjAuNzk2MjgsNjguNTM4NjYgYyAxLjU2NDA2LDAuOTQ3OTEgMS45Mjk1NSwwLjYwMjUyIDEuNzA3MzQsLTEuMDM2NiBsIC0yLjU2MTA4LC00OC4wNTAxNyBjIC0wLjA2OTcsLTEuNTUwNjggLTAuMjc5ODIsLTIuMTgyMTEgLTEuODkwMTQsLTIuNDM5MSBsIC0xMTguMDUyNCwtMTcuMDEyNzkgeiBtIDI0OS43NjM2NiwwLjEyMSAtMTIyLjYyNTc1LDE2Ljk1MTc1IGMgLTEuNjE4MDEsMC4yMzg0NCAtMS4zMjU5LDEuMDMyODEgLTEuMzQxNTIsMi4xOTUxOCBsIDIuNjIyMSw0OC45MDQwMSBjIDAuMTM0NzYsMS40ODM4NCAwLjA5MTQsMi4wMTU4NCAxLjg5MDE3LDEuMDk3NTggbCAxMTkuNDU1LC02OS4xNDg1MiB6IG0gLTc2Ljc3MDY1LDIxLjA5ODIyIDguOTYzNzIsOS45MzkzNSA3LjAxMjMsLTQuMTQ2NDMgMS45NTEyNiwyLjE5NTE2IC0xOC40MTUyMywxMC45MTQ5MiAtMi45ODc3MywxLjc2ODM3IC0xOC40MTUyMywxMC45MTUwMyAtMS45NTEzMiwtMi4xMzQyOSA3LjAxMjM4LC00LjE0NjQ0IC03LjEzNDM2LC03LjgwNTEgLTYuNTg1NDcsNC44MTcyMiAtMS45NTEzNCwtMi4xMzQxOSA2LjU4NTcyLC00Ljc1NjI0IDcuNTAwMDgsLTQuNDUxNCA5LjAyNDY2LDkuOTM5NCAzLjk2MzU0LC0yLjM3ODE4IDIuOTg3ODIsLTEuNzY4MzYgMy45NjM2MiwtMi4zNzgwNyAtNy4wNzM0MSwtNy44MDUxIC02LjY0NjY1LDQuODE3MjIgLTEuODkwMDcsLTIuMTM0MyA2LjU4NTQ3LC00LjgxNzExIDcuNTAwMjQsLTQuNDUxNDYgeiBtIC04MC42MTIzMSwxLjQ2MzQ3IGMgMi4zNzI3LDAuMTA3NzkgNC41MTUxMSwwLjkyNzggNi41MjQ2OSwyLjQzOTA0IDIuMjMxMTYsMS42Nzc5NyAzLjE3NTg4LDMuNDg3NjYgMi44MDUwOCw1LjQ4OCAtMC4zNzEyLDIuMDAwNDUgLTIuMDI3MSw0LjAwMDQ2IC00LjkzOTMxLDUuOTc1ODggLTEuNzMyMTUsMS4xNzQ5NCAtMy41MjE5OCwxLjk3NzU1IC01LjMwNDk4LDIuNTAwMDEgbCAyLjA3MzIxLDEuNTg1NDUgLTQuNjk1NCwzLjE3MDc5IC00LjE0NjM1LC0zLjEwOTgyIDEuNTI0NDMsLTEuMDM2NjEgYyAtMi41OTY5OCwtMC4xNzAzMyAtNC45NDI2NywtMS4wMTk3NiAtNy4wNzMzMywtMi42MjIwNiAtMC44MDIzMiwtMC42MDMzIC0xLjUzMDE0LC0xLjE4OTg4IC0yLjEzNDMyLC0xLjgyOTMzIC0wLjYxMjA0LC0wLjYzMzk2IC0xLjEzMzEsLTEuMzEzMzkgLTEuNTg1MzgsLTIuMDEyMjUgbCAzLjM1Mzg4LC0yLjI1NjEzIGMgMC4zNTUxMSwwLjc2NDY2IDAuNzU1NTYsMS40MDg4MyAxLjIxOTQ4LDIuMDEyMjUgMC40NzE4NCwwLjU5NzkxIDEuMDE5NzcsMS4xNzUxNyAxLjY0NjMxLDEuNjQ2NDIgMS4zMTQxNywwLjk4ODMzIDIuNzY2MzIsMS40OTQwNiA0LjI2ODQsMS41MjQzNyAxLjUxMDA5LDAuMDI0NyAzLjA0NDY1LC0wLjQ2ODU2IDQuNjk1MzksLTEuNDAyNDMgLTAuOTI0MTksLTAuMTE2MjEgLTEuNzcwNjQsLTAuMzA0NTEgLTIuNTYxMTYsLTAuNjA5ODEgLTAuNzkwNTcsLTAuMzA1MyAtMS41MDc1NCwtMC43MDIzNCAtMi4xOTUwMSwtMS4yMTk1MiAtMS43NDk5NywtMS4zMTU4NiAtMi42MjA2LC0yLjc4OTM3IC0yLjYyMjA5LC00LjMyOTQ2IDAuMDE5MSwtMS41Mzk2NCAwLjkxOTI4LC0yLjg4OTE4IDIuNjgyODcsLTQuMDg1NDYgMS45NDk1OSwtMS4zMjIzNyA0LjA5ODY2LC0xLjkzMDA1IDYuNDYzNTksLTEuODI5MzMgeiBtIDEuMDM2NzMsMy42NTg2NyBjIC0wLjkyMzY0LDAuMDY4NSAtMS44NzU0MSwwLjQ0NTIgLTIuOTI2ODksMS4xNTg1NSAtMS4wNTk3OCwwLjcxODg0IC0xLjY4NTE0LDEuNDE4MDMgLTEuODI5MjksMi4wNzMyMSAtMC4xMzY2MywwLjY0OTc5IDAuMjAzNzUsMS4yNDg5NCAwLjk3NTU2LDEuODI5MzQgMC43NzE3OSwwLjU4MDM5IDEuNTg0NDEsMC44NTYzOSAyLjUwMDA1LDAuNzkyNzIgMC45MjM0OCwtMC4wNjk2IDEuOTI4MjcsLTAuNTAwNjcgMi45ODc5LC0xLjIxOTUyIDEuMDUxNjQsLTAuNzEzMzQgMS42MjQxMywtMS4zNTcwNiAxLjc2ODM1LC0yLjAxMjI0IDAuMTQ0NCwtMC42NTUyOSAtMC4xNDI0MSwtMS4zMDk5MSAtMC45MTQ2LC0xLjg5MDQyIC0wLjc3MTk3LC0wLjU4MDI4IC0xLjYzNzQ0LC0wLjgwMDgxIC0yLjU2MTA4LC0wLjczMTY0IHoiCiAgICAgICBpZD0icGF0aDM5MjIiIC8+CiAgPC9nPgo8L3N2Zz4K);
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 13.9vh 16vh;
+				background-color: white;
+				left: calc(50% - 10vh);
+				top: calc(50% - 25vh);
+				width: 20vh;
+				height: 20vh;
+				border-width: 0px;
+				z-index: 9921;
+			}
+			#loading::after {
+				left: calc(50% - 10vh);
+				top: calc(50% - 25vh);
+				width: 20vh;
+				height: 20vh;
+				z-index: 9922;
+			}
+			@keyframes loadSpin { to { transform: rotate(360deg); } }
+			#loading::after {
+				border-width: 0.5vh;
+				border-style: solid;
+				border-color: #D00000 transparent transparent;
+				animation: loadSpin 0.8s linear infinite;
+			}
+			#loading p {
+				margin: 0px auto;
+				padding: 0.5vh 1vh;
+				width: 50vh;
+				font-size: 2.5vh;
+				font-family: sans-serif;
+				font-weight: bold;
+				color: #D00000;
+				background-color: white;
+				border-radius: 1vh;
+			}
+			@keyframes loadText {
+				0%, 100% { content: 'Casting Magic Missile...'; }
+				9.09% { content: 'Constructing additional pylons...'; }
+				18.18% { content: 'Verifying launch codes...'; }
+				27.27% { content: 'Nerfing Color Spray...'; }
+				36.36% { content: 'Attacking the darkness...'; }
+				45.45% { content: 'Reversing polarity...'; }
+				54.54% { content: 'Reticulating splines...'; }
+				63.63% { content: 'Displaying witty loading text...'; }
+				72.72% { content: 'Rolling for Initiative...'; }
+				81.81% { content: 'Calibrating flux capacitor...'; }
+				90.9% { content: 'Dividing by zero...'; }
+			}
+			#loading p::after {
+				content: 'Loading assets...';
+				animation: loadText 22s step-end infinite;
+			}
+		</style>
+		<link rel="icon" href="{{ url_for('static', filename = 'favicon.png') }}">
+		<link rel="manifest" href="{{ url_for('static', filename = 'manifest.json') }}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cantarell:400">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'util.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'sheet.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'page-1.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'page-2.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'page-3.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'page-notes.css') }}">
+	</head>
+	<body class="can-upload print-transient">
+		<div id="menu" class="no-print"><button id="new-button" title="New character" class="material-icons">note_add</button><button id="open-button" title="Load character" class="material-icons">folder_open</button><span></span><button id="lock-button" title="Toggle read-only" class="material-icons" disabled="">lock_open</button><button id="save-button" title="Save character" class="material-icons">save</button><button id="tools-button" title="Toggle tools panel" disabled="" class="material-icons">build</button><button id="options-button" title="Toggle options panel" class="material-icons">settings</button><span></span><button id="print-button" title="Print" class="material-icons">print</button><button id="home-button" title="Back to home page" class="right hide-if-standalone material-icons">home</button><div id="tools"><button id="password-button" title="Change password" class="material-icons" disabled="">vpn_key</button><button id="email-button" title="Set password recovery e-mail address" class="material-icons" disabled="">alternate_email</button><button id="code-button" title="Change sheet code" class="material-icons" disabled="">edit</button></div><div id="options" class=""><label><input id="dci-faction-shown" type="checkbox" data-defval="false" checked="false">Show DCI and faction fields</label><label><input id="inspiration-num" type="checkbox" data-defval="false" checked="false">Use number field for Inspiration</label><label><input id="armor-class-alt" type="checkbox" data-defval="false" checked="false">Show alternate AC field</label><br><label><input id="page-3-shown" type="checkbox" data-defval="false" checked="false">Show spellcasting page</label><label><input id="page-notes-shown" type="number" data-defval="0" value="0" min="0" max="10">Notes pages</label><label><input id="dark-theme" type="checkbox" data-defval="false" checked="false">Dark mode</label><label><input id="attr-cap" type="checkbox" data-defval="true" checked="true">Cap attributes</label><br><label><input id="calc-fields" type="checkbox" data-defval="true" checked="true">Calculable fields</label><label><input id="attr-mod-calc" type="checkbox" data-defval="false" checked="false">Calculate attribute modifiers</label><label><input id="print-transient" type="checkbox" data-defval="true" checked="true">Transient fields in print</label></div></div>
+
+		<div id="page-1" class="shown">
+			<img class="page-bg" src="{{ url_for('static', filename = 'page-1.svg') }}" alt="">
+
+			<input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><input id="name" type="text" value="" class="character-name" data-length-above="0">
+			<input id="class" type="text" value="">
+			<input id="race" type="text" value="">
+			<input id="background" type="text" value="">
+			<input id="alignment" type="text" value="">
+			<input id="player" type="text" value="">
+			<input id="experience" type="text" value="" class="calculable transient calc-enabled">
+
+			<div id="adventurers-league">
+				<input id="faction" type="text" value="">
+				<input id="dci-number" type="text" value="">
+			</div>
+
+			<div id="attributes">
+				<input id="STR" type="number" value="0" data-defval="0" data-attr-mod-calc-id="STR-mod-calc" min="0" max="20">
+				<input id="STR-mod-calc" type="text" value="" disabled="disabled">
+				<input id="STR-mod" type="text" value="">
+				<input id="DEX" type="number" value="0" data-defval="0" data-attr-mod-calc-id="DEX-mod-calc" min="0" max="20">
+				<input id="DEX-mod-calc" type="text" value="" disabled="disabled">
+				<input id="DEX-mod" type="text" value="">
+				<input id="CON" type="number" value="0" data-defval="0" data-attr-mod-calc-id="CON-mod-calc" min="0" max="20">
+				<input id="CON-mod-calc" type="text" value="" disabled="disabled">
+				<input id="CON-mod" type="text" value="">
+				<input id="INT" type="number" value="0" data-defval="0" data-attr-mod-calc-id="INT-mod-calc" min="0" max="20">
+				<input id="INT-mod-calc" type="text" value="" disabled="disabled">
+				<input id="INT-mod" type="text" value="">
+				<input id="WIS" type="number" value="0" data-defval="0" data-attr-mod-calc-id="WIS-mod-calc" min="0" max="20">
+				<input id="WIS-mod-calc" type="text" value="" disabled="disabled">
+				<input id="WIS-mod" type="text" value="">
+				<input id="CHA" type="number" value="0" data-defval="0" data-attr-mod-calc-id="CHA-mod-calc" min="0" max="20">
+				<input id="CHA-mod-calc" type="text" value="" disabled="disabled">
+				<input id="CHA-mod" type="text" value="">
+			</div>
+
+			<input id="inspirationNum" type="number" value="0" data-defval="0" min="0" class="">
+			<input id="inspiration" type="checkbox" value="1">
+			<label for="inspiration"></label>
+
+			<input id="proficiencyBonus" type="text" value="">
+
+			<div id="saves" class="proficiencyMask">
+				<input id="STR-save-prof" type="checkbox" class="radio" value="1">
+				<label for="STR-save-prof"></label>
+				<input id="STR-save" type="text" value="">
+				<input id="DEX-save-prof" type="checkbox" class="radio" value="1">
+				<label for="DEX-save-prof"></label>
+				<input id="DEX-save" type="text" value="">
+				<input id="CON-save-prof" type="checkbox" class="radio" value="1">
+				<label for="CON-save-prof"></label>
+				<input id="CON-save" type="text" value="">
+				<input id="INT-save-prof" type="checkbox" class="radio" value="1">
+				<label for="INT-save-prof"></label>
+				<input id="INT-save" type="text" value="">
+				<input id="WIS-save-prof" type="checkbox" class="radio" value="1">
+				<label for="WIS-save-prof"></label>
+				<input id="WIS-save" type="text" value="">
+				<input id="CHA-save-prof" type="checkbox" class="radio" value="1">
+				<label for="CHA-save-prof"></label>
+				<input id="CHA-save" type="text" value="">
+			</div>
+
+			<div id="skills" class="proficiencyMask">
+				<input id="acrobatics-prof" type="checkbox" class="radio" value="1">
+				<label for="acrobatics-prof"></label>
+				<input id="acrobatics" type="text" value="">
+				<input id="animalHandling-prof" type="checkbox" class="radio" value="1">
+				<label for="animalHandling-prof"></label>
+				<input id="animalHandling" type="text" value="">
+				<input id="arcana-prof" type="checkbox" class="radio" value="1">
+				<label for="arcana-prof"></label>
+				<input id="arcana" type="text" value="">
+				<input id="athletics-prof" type="checkbox" class="radio" value="1">
+				<label for="athletics-prof"></label>
+				<input id="athletics" type="text" value="">
+				<input id="deception-prof" type="checkbox" class="radio" value="1">
+				<label for="deception-prof"></label>
+				<input id="deception" type="text" value="">
+				<input id="history-prof" type="checkbox" class="radio" value="1">
+				<label for="history-prof"></label>
+				<input id="history" type="text" value="">
+				<input id="insight-prof" type="checkbox" class="radio" value="1">
+				<label for="insight-prof"></label>
+				<input id="insight" type="text" value="">
+				<input id="intimidation-prof" type="checkbox" class="radio" value="1">
+				<label for="intimidation-prof"></label>
+				<input id="intimidation" type="text" value="">
+				<input id="investigation-prof" type="checkbox" class="radio" value="1">
+				<label for="investigation-prof"></label>
+				<input id="investigation" type="text" value="">
+				<input id="medicine-prof" type="checkbox" class="radio" value="1">
+				<label for="medicine-prof"></label>
+				<input id="medicine" type="text" value="">
+				<input id="nature-prof" type="checkbox" class="radio" value="1">
+				<label for="nature-prof"></label>
+				<input id="nature" type="text" value="">
+				<input id="perception-prof" type="checkbox" class="radio" value="1">
+				<label for="perception-prof"></label>
+				<input id="perception" type="text" value="">
+				<input id="performance-prof" type="checkbox" class="radio" value="1">
+				<label for="performance-prof"></label>
+				<input id="performance" type="text" value="">
+				<input id="persuasion-prof" type="checkbox" class="radio" value="1">
+				<label for="persuasion-prof"></label>
+				<input id="persuasion" type="text" value="">
+				<input id="religion-prof" type="checkbox" class="radio" value="1">
+				<label for="religion-prof"></label>
+				<input id="religion" type="text" value="">
+				<input id="sleightOfHand-prof" type="checkbox" class="radio" value="1">
+				<label for="sleightOfHand-prof"></label>
+				<input id="sleightOfHand" type="text" value="">
+				<input id="stealth-prof" type="checkbox" class="radio" value="1">
+				<label for="stealth-prof"></label>
+				<input id="stealth" type="text" value="">
+				<input id="survival-prof" type="checkbox" class="radio" value="1">
+				<label for="survival-prof"></label>
+				<input id="survival" type="text" value="">
+			</div>
+
+			<input id="perception-passive" type="text" value="">
+
+			<textarea id="proficiencies"></textarea>
+
+			<div id="vitals">
+				<input id="armorClassAlt" type="text" value="">
+				<hr id="armorClassAltLine">
+				<input id="armorClass" type="text" value="">
+				<input id="initiative" type="text" value="">
+				<input id="speed" type="text" value="">
+				<input id="HP-max" type="text" value="" class="calculable calc-enabled">
+				<input id="HP-current" type="text" value="" class="calculable transient calc-enabled">
+				<input id="HP-temp" type="text" value="" class="calculable transient calc-enabled">
+				<input id="hitDice-total" type="text" value="">
+				<input id="hitDice-type" type="text" value="" class="transient">
+				<div id="death">
+					<input id="death-save-1" type="checkbox" value="1">
+					<label for="death-save-1"></label>
+					<input id="death-save-2" type="checkbox" value="1">
+					<label for="death-save-2"></label>
+					<input id="death-save-3" type="checkbox" value="1">
+					<label for="death-save-3"></label>
+					<input id="death-fail-1" type="checkbox" class="x" value="1">
+					<label for="death-fail-1"></label>
+					<input id="death-fail-2" type="checkbox" class="x" value="1">
+					<label for="death-fail-2"></label>
+					<input id="death-fail-3" type="checkbox" class="x" value="1">
+					<label for="death-fail-3"></label>
+				</div>
+			</div>
+
+			<div id="attacks">
+				<div id="attack-1">
+					<input id="attack-1-name" type="text" value="">
+					<input id="attack-1-bonus" type="text" value="">
+					<input id="attack-1-damage" type="text" value="">
+				</div>
+				<div id="attack-2">
+					<input id="attack-2-name" type="text" value="">
+					<input id="attack-2-bonus" type="text" value="">
+					<input id="attack-2-damage" type="text" value="">
+				<input type="button" class="no-print material-icons move" value="swap_vert" title="Swap attacks"></div>
+				<div id="attack-3">
+					<input id="attack-3-name" type="text" value="">
+					<input id="attack-3-bonus" type="text" value="">
+					<input id="attack-3-damage" type="text" value="">
+				<input type="button" class="no-print material-icons move" value="swap_vert" title="Swap attacks"></div>
+				<div id="attack-4">
+					<input id="attack-4-name" type="text" value="">
+					<input id="attack-4-bonus" type="text" value="">
+					<input id="attack-4-damage" type="text" value="">
+				<input type="button" class="no-print material-icons move" value="swap_vert" title="Swap attacks"></div>
+				<div id="attack-5">
+					<input id="attack-5-name" type="text" value="">
+					<input id="attack-5-bonus" type="text" value="">
+					<input id="attack-5-damage" type="text" value="">
+				<input type="button" class="no-print material-icons move" value="swap_vert" title="Swap attacks"></div>
+				<div id="attack-6">
+					<input id="attack-6-name" type="text" value="">
+					<input id="attack-6-bonus" type="text" value="">
+					<input id="attack-6-damage" type="text" value="">
+				<input type="button" class="no-print material-icons move" value="swap_vert" title="Swap attacks"></div>
+				<textarea id="more-attacks"></textarea>
+			</div>
+
+			<div id="equipment">
+				<input id="coins-copper" type="text" value="" class="calculable transient calc-enabled">
+				<input id="coins-silver" type="text" value="" class="calculable transient calc-enabled">
+				<input id="coins-electrum" type="text" value="" class="calculable transient calc-enabled">
+				<input id="coins-gold" type="text" value="" class="calculable transient calc-enabled">
+				<input id="coins-platinum" type="text" value="" class="calculable transient calc-enabled">
+				<textarea id="equipment-primary"></textarea>
+				<textarea id="equipment-secondary"></textarea>
+				<textarea id="equipment-tertiary"></textarea>
+			</div>
+
+			<div id="traits">
+				<textarea id="personality"></textarea>
+				<textarea id="ideals"></textarea>
+				<textarea id="bonds"></textarea>
+				<textarea id="flaws"></textarea>
+			</div>
+
+			<textarea id="features"></textarea>
+		</div>
+
+		<div id="page-2" class="shown">
+			<img class="page-bg" src="{{ url_for('static', filename = 'page-2.svg') }}" alt="">
+
+			<input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><input id="name-2" type="text" value="" class="character-name" data-length-above="0">
+			<input id="age" type="text" value="">
+			<input id="eyes" type="text" value="">
+			<input id="height" type="text" value="">
+			<input id="skin" type="text" value="">
+			<input id="weight" type="text" value="">
+			<input id="hair" type="text" value="">
+
+			<div id="appearance">
+				<div id="portrait" class="no-print hide-if-read-only">
+					Image upload<br>unavailable
+				</div>
+			</div>
+
+			<textarea id="backstory"></textarea>
+
+			<div id="allies">
+				<div id="organization">
+					<input id="organization-name" type="text" value="">
+					<div id="organization-symbol" class="no-print hide-if-read-only">
+						Image upload<br>unavailable
+					</div>
+				</div>
+
+				<textarea id="allies-primary"></textarea>
+				<textarea id="allies-secondary"></textarea>
+				<textarea id="allies-tertiary-1"></textarea>
+				<textarea id="allies-tertiary-2"></textarea>
+			</div>
+
+			<div id="more-features">
+				<textarea id="more-features-1"></textarea>
+				<textarea id="more-features-2"></textarea>
+			</div>
+
+			<div id="treasure">
+				<textarea id="treasure-1"></textarea>
+				<textarea id="treasure-2"></textarea>
+			</div>
+		</div>
+
+		<div id="page-3">
+			<img class="page-bg" src="{{ url_for('static', filename = 'page-3.svg') }}" alt="">
+
+			<input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><input id="spell-class" type="text" value="">
+			<input id="spell-ability" type="text" value="">
+			<input id="spell-save" type="text" value="">
+			<input id="spell-bonus" type="text" value="">
+			<div id="spells-level-0"><div id="spell-list-0"><div><input id="spell-0-1-name" type="text" value=""><br><input id="spell-0-2-name" type="text" value=""><br><input id="spell-0-3-name" type="text" value=""><br><input id="spell-0-4-name" type="text" value=""><br><input id="spell-0-5-name" type="text" value=""><br><input id="spell-0-6-name" type="text" value=""><br><input id="spell-0-7-name" type="text" value=""><br><input id="spell-0-8-name" type="text" value=""></div><div><input id="spell-0-9-name" type="text" value=""><br><input id="spell-0-10-name" type="text" value=""><br><input id="spell-0-11-name" type="text" value=""><br><input id="spell-0-12-name" type="text" value=""><br><input id="spell-0-13-name" type="text" value=""><br><input id="spell-0-14-name" type="text" value=""><br><input id="spell-0-15-name" type="text" value=""><br><input id="spell-0-16-name" type="text" value=""><br></div></div></div><div id="spells-level-1"><input id="spell-slots-total-1" type="text" value=""><input id="spell-slots-used-1" type="text" value="" class="transient"><div id="spell-list-1"><div><input id="spell-1-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-1-prepared"></label><input id="spell-1-1-name" type="text" value=""><br><input id="spell-1-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-2-prepared"></label><input id="spell-1-2-name" type="text" value=""><br><input id="spell-1-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-3-prepared"></label><input id="spell-1-3-name" type="text" value=""><br><input id="spell-1-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-4-prepared"></label><input id="spell-1-4-name" type="text" value=""><br><input id="spell-1-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-5-prepared"></label><input id="spell-1-5-name" type="text" value=""><br><input id="spell-1-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-6-prepared"></label><input id="spell-1-6-name" type="text" value=""><br><input id="spell-1-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-7-prepared"></label><input id="spell-1-7-name" type="text" value=""><br><input id="spell-1-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-8-prepared"></label><input id="spell-1-8-name" type="text" value=""><br><input id="spell-1-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-9-prepared"></label><input id="spell-1-9-name" type="text" value=""><br><input id="spell-1-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-10-prepared"></label><input id="spell-1-10-name" type="text" value=""><br><input id="spell-1-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-11-prepared"></label><input id="spell-1-11-name" type="text" value=""><br><input id="spell-1-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-12-prepared"></label><input id="spell-1-12-name" type="text" value=""><br><input id="spell-1-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-13-prepared"></label><input id="spell-1-13-name" type="text" value=""></div><div><input id="spell-1-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-14-prepared"></label><input id="spell-1-14-name" type="text" value=""><br><input id="spell-1-15-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-15-prepared"></label><input id="spell-1-15-name" type="text" value=""><br><input id="spell-1-16-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-16-prepared"></label><input id="spell-1-16-name" type="text" value=""><br><input id="spell-1-17-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-17-prepared"></label><input id="spell-1-17-name" type="text" value=""><br><input id="spell-1-18-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-18-prepared"></label><input id="spell-1-18-name" type="text" value=""><br><input id="spell-1-19-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-19-prepared"></label><input id="spell-1-19-name" type="text" value=""><br><input id="spell-1-20-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-20-prepared"></label><input id="spell-1-20-name" type="text" value=""><br><input id="spell-1-21-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-21-prepared"></label><input id="spell-1-21-name" type="text" value=""><br><input id="spell-1-22-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-22-prepared"></label><input id="spell-1-22-name" type="text" value=""><br><input id="spell-1-23-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-23-prepared"></label><input id="spell-1-23-name" type="text" value=""><br><input id="spell-1-24-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-24-prepared"></label><input id="spell-1-24-name" type="text" value=""><br><input id="spell-1-25-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-25-prepared"></label><input id="spell-1-25-name" type="text" value=""><br><input id="spell-1-26-prepared" type="checkbox" class="radio" value="1"><label for="spell-1-26-prepared"></label><input id="spell-1-26-name" type="text" value=""><br></div></div><div id="spell-prepared-label">Prepared</div></div><div id="spells-level-2"><input id="spell-slots-total-2" type="text" value=""><input id="spell-slots-used-2" type="text" value="" class="transient"><div id="spell-list-2"><div><input id="spell-2-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-1-prepared"></label><input id="spell-2-1-name" type="text" value=""><br><input id="spell-2-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-2-prepared"></label><input id="spell-2-2-name" type="text" value=""><br><input id="spell-2-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-3-prepared"></label><input id="spell-2-3-name" type="text" value=""><br><input id="spell-2-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-4-prepared"></label><input id="spell-2-4-name" type="text" value=""><br><input id="spell-2-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-5-prepared"></label><input id="spell-2-5-name" type="text" value=""><br><input id="spell-2-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-6-prepared"></label><input id="spell-2-6-name" type="text" value=""><br><input id="spell-2-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-7-prepared"></label><input id="spell-2-7-name" type="text" value=""><br><input id="spell-2-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-8-prepared"></label><input id="spell-2-8-name" type="text" value=""><br><input id="spell-2-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-9-prepared"></label><input id="spell-2-9-name" type="text" value=""><br><input id="spell-2-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-10-prepared"></label><input id="spell-2-10-name" type="text" value=""><br><input id="spell-2-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-11-prepared"></label><input id="spell-2-11-name" type="text" value=""><br><input id="spell-2-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-12-prepared"></label><input id="spell-2-12-name" type="text" value=""><br><input id="spell-2-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-13-prepared"></label><input id="spell-2-13-name" type="text" value=""></div><div><input id="spell-2-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-14-prepared"></label><input id="spell-2-14-name" type="text" value=""><br><input id="spell-2-15-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-15-prepared"></label><input id="spell-2-15-name" type="text" value=""><br><input id="spell-2-16-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-16-prepared"></label><input id="spell-2-16-name" type="text" value=""><br><input id="spell-2-17-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-17-prepared"></label><input id="spell-2-17-name" type="text" value=""><br><input id="spell-2-18-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-18-prepared"></label><input id="spell-2-18-name" type="text" value=""><br><input id="spell-2-19-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-19-prepared"></label><input id="spell-2-19-name" type="text" value=""><br><input id="spell-2-20-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-20-prepared"></label><input id="spell-2-20-name" type="text" value=""><br><input id="spell-2-21-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-21-prepared"></label><input id="spell-2-21-name" type="text" value=""><br><input id="spell-2-22-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-22-prepared"></label><input id="spell-2-22-name" type="text" value=""><br><input id="spell-2-23-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-23-prepared"></label><input id="spell-2-23-name" type="text" value=""><br><input id="spell-2-24-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-24-prepared"></label><input id="spell-2-24-name" type="text" value=""><br><input id="spell-2-25-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-25-prepared"></label><input id="spell-2-25-name" type="text" value=""><br><input id="spell-2-26-prepared" type="checkbox" class="radio" value="1"><label for="spell-2-26-prepared"></label><input id="spell-2-26-name" type="text" value=""><br></div></div></div><div id="spells-level-3"><input id="spell-slots-total-3" type="text" value=""><input id="spell-slots-used-3" type="text" value="" class="transient"><div id="spell-list-3"><div><input id="spell-3-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-1-prepared"></label><input id="spell-3-1-name" type="text" value=""><br><input id="spell-3-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-2-prepared"></label><input id="spell-3-2-name" type="text" value=""><br><input id="spell-3-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-3-prepared"></label><input id="spell-3-3-name" type="text" value=""><br><input id="spell-3-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-4-prepared"></label><input id="spell-3-4-name" type="text" value=""><br><input id="spell-3-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-5-prepared"></label><input id="spell-3-5-name" type="text" value=""><br><input id="spell-3-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-6-prepared"></label><input id="spell-3-6-name" type="text" value=""><br><input id="spell-3-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-7-prepared"></label><input id="spell-3-7-name" type="text" value=""><br><input id="spell-3-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-8-prepared"></label><input id="spell-3-8-name" type="text" value=""><br><input id="spell-3-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-9-prepared"></label><input id="spell-3-9-name" type="text" value=""><br><input id="spell-3-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-10-prepared"></label><input id="spell-3-10-name" type="text" value=""><br><input id="spell-3-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-11-prepared"></label><input id="spell-3-11-name" type="text" value=""><br><input id="spell-3-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-12-prepared"></label><input id="spell-3-12-name" type="text" value=""><br><input id="spell-3-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-13-prepared"></label><input id="spell-3-13-name" type="text" value=""></div><div><input id="spell-3-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-14-prepared"></label><input id="spell-3-14-name" type="text" value=""><br><input id="spell-3-15-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-15-prepared"></label><input id="spell-3-15-name" type="text" value=""><br><input id="spell-3-16-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-16-prepared"></label><input id="spell-3-16-name" type="text" value=""><br><input id="spell-3-17-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-17-prepared"></label><input id="spell-3-17-name" type="text" value=""><br><input id="spell-3-18-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-18-prepared"></label><input id="spell-3-18-name" type="text" value=""><br><input id="spell-3-19-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-19-prepared"></label><input id="spell-3-19-name" type="text" value=""><br><input id="spell-3-20-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-20-prepared"></label><input id="spell-3-20-name" type="text" value=""><br><input id="spell-3-21-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-21-prepared"></label><input id="spell-3-21-name" type="text" value=""><br><input id="spell-3-22-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-22-prepared"></label><input id="spell-3-22-name" type="text" value=""><br><input id="spell-3-23-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-23-prepared"></label><input id="spell-3-23-name" type="text" value=""><br><input id="spell-3-24-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-24-prepared"></label><input id="spell-3-24-name" type="text" value=""><br><input id="spell-3-25-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-25-prepared"></label><input id="spell-3-25-name" type="text" value=""><br><input id="spell-3-26-prepared" type="checkbox" class="radio" value="1"><label for="spell-3-26-prepared"></label><input id="spell-3-26-name" type="text" value=""><br></div></div></div><div id="spells-level-4"><input id="spell-slots-total-4" type="text" value=""><input id="spell-slots-used-4" type="text" value="" class="transient"><div id="spell-list-4"><div><input id="spell-4-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-1-prepared"></label><input id="spell-4-1-name" type="text" value=""><br><input id="spell-4-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-2-prepared"></label><input id="spell-4-2-name" type="text" value=""><br><input id="spell-4-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-3-prepared"></label><input id="spell-4-3-name" type="text" value=""><br><input id="spell-4-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-4-prepared"></label><input id="spell-4-4-name" type="text" value=""><br><input id="spell-4-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-5-prepared"></label><input id="spell-4-5-name" type="text" value=""><br><input id="spell-4-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-6-prepared"></label><input id="spell-4-6-name" type="text" value=""><br><input id="spell-4-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-7-prepared"></label><input id="spell-4-7-name" type="text" value=""><br><input id="spell-4-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-8-prepared"></label><input id="spell-4-8-name" type="text" value=""><br><input id="spell-4-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-9-prepared"></label><input id="spell-4-9-name" type="text" value=""><br><input id="spell-4-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-10-prepared"></label><input id="spell-4-10-name" type="text" value=""><br><input id="spell-4-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-11-prepared"></label><input id="spell-4-11-name" type="text" value=""><br><input id="spell-4-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-12-prepared"></label><input id="spell-4-12-name" type="text" value=""><br><input id="spell-4-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-13-prepared"></label><input id="spell-4-13-name" type="text" value=""></div><div><input id="spell-4-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-14-prepared"></label><input id="spell-4-14-name" type="text" value=""><br><input id="spell-4-15-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-15-prepared"></label><input id="spell-4-15-name" type="text" value=""><br><input id="spell-4-16-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-16-prepared"></label><input id="spell-4-16-name" type="text" value=""><br><input id="spell-4-17-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-17-prepared"></label><input id="spell-4-17-name" type="text" value=""><br><input id="spell-4-18-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-18-prepared"></label><input id="spell-4-18-name" type="text" value=""><br><input id="spell-4-19-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-19-prepared"></label><input id="spell-4-19-name" type="text" value=""><br><input id="spell-4-20-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-20-prepared"></label><input id="spell-4-20-name" type="text" value=""><br><input id="spell-4-21-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-21-prepared"></label><input id="spell-4-21-name" type="text" value=""><br><input id="spell-4-22-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-22-prepared"></label><input id="spell-4-22-name" type="text" value=""><br><input id="spell-4-23-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-23-prepared"></label><input id="spell-4-23-name" type="text" value=""><br><input id="spell-4-24-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-24-prepared"></label><input id="spell-4-24-name" type="text" value=""><br><input id="spell-4-25-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-25-prepared"></label><input id="spell-4-25-name" type="text" value=""><br><input id="spell-4-26-prepared" type="checkbox" class="radio" value="1"><label for="spell-4-26-prepared"></label><input id="spell-4-26-name" type="text" value=""><br></div></div></div><div id="spells-level-5"><input id="spell-slots-total-5" type="text" value=""><input id="spell-slots-used-5" type="text" value="" class="transient"><div id="spell-list-5"><div><input id="spell-5-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-1-prepared"></label><input id="spell-5-1-name" type="text" value=""><br><input id="spell-5-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-2-prepared"></label><input id="spell-5-2-name" type="text" value=""><br><input id="spell-5-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-3-prepared"></label><input id="spell-5-3-name" type="text" value=""><br><input id="spell-5-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-4-prepared"></label><input id="spell-5-4-name" type="text" value=""><br><input id="spell-5-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-5-prepared"></label><input id="spell-5-5-name" type="text" value=""><br><input id="spell-5-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-6-prepared"></label><input id="spell-5-6-name" type="text" value=""><br><input id="spell-5-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-7-prepared"></label><input id="spell-5-7-name" type="text" value=""><br><input id="spell-5-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-8-prepared"></label><input id="spell-5-8-name" type="text" value=""><br><input id="spell-5-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-9-prepared"></label><input id="spell-5-9-name" type="text" value=""></div><div><input id="spell-5-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-10-prepared"></label><input id="spell-5-10-name" type="text" value=""><br><input id="spell-5-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-11-prepared"></label><input id="spell-5-11-name" type="text" value=""><br><input id="spell-5-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-12-prepared"></label><input id="spell-5-12-name" type="text" value=""><br><input id="spell-5-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-13-prepared"></label><input id="spell-5-13-name" type="text" value=""><br><input id="spell-5-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-14-prepared"></label><input id="spell-5-14-name" type="text" value=""><br><input id="spell-5-15-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-15-prepared"></label><input id="spell-5-15-name" type="text" value=""><br><input id="spell-5-16-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-16-prepared"></label><input id="spell-5-16-name" type="text" value=""><br><input id="spell-5-17-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-17-prepared"></label><input id="spell-5-17-name" type="text" value=""><br><input id="spell-5-18-prepared" type="checkbox" class="radio" value="1"><label for="spell-5-18-prepared"></label><input id="spell-5-18-name" type="text" value=""><br></div></div></div><div id="spells-level-6"><input id="spell-slots-total-6" type="text" value=""><input id="spell-slots-used-6" type="text" value="" class="transient"><div id="spell-list-6"><div><input id="spell-6-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-1-prepared"></label><input id="spell-6-1-name" type="text" value=""><br><input id="spell-6-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-2-prepared"></label><input id="spell-6-2-name" type="text" value=""><br><input id="spell-6-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-3-prepared"></label><input id="spell-6-3-name" type="text" value=""><br><input id="spell-6-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-4-prepared"></label><input id="spell-6-4-name" type="text" value=""><br><input id="spell-6-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-5-prepared"></label><input id="spell-6-5-name" type="text" value=""><br><input id="spell-6-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-6-prepared"></label><input id="spell-6-6-name" type="text" value=""><br><input id="spell-6-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-7-prepared"></label><input id="spell-6-7-name" type="text" value=""><br><input id="spell-6-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-8-prepared"></label><input id="spell-6-8-name" type="text" value=""><br><input id="spell-6-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-9-prepared"></label><input id="spell-6-9-name" type="text" value=""></div><div><input id="spell-6-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-10-prepared"></label><input id="spell-6-10-name" type="text" value=""><br><input id="spell-6-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-11-prepared"></label><input id="spell-6-11-name" type="text" value=""><br><input id="spell-6-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-12-prepared"></label><input id="spell-6-12-name" type="text" value=""><br><input id="spell-6-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-13-prepared"></label><input id="spell-6-13-name" type="text" value=""><br><input id="spell-6-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-14-prepared"></label><input id="spell-6-14-name" type="text" value=""><br><input id="spell-6-15-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-15-prepared"></label><input id="spell-6-15-name" type="text" value=""><br><input id="spell-6-16-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-16-prepared"></label><input id="spell-6-16-name" type="text" value=""><br><input id="spell-6-17-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-17-prepared"></label><input id="spell-6-17-name" type="text" value=""><br><input id="spell-6-18-prepared" type="checkbox" class="radio" value="1"><label for="spell-6-18-prepared"></label><input id="spell-6-18-name" type="text" value=""><br></div></div></div><div id="spells-level-7"><input id="spell-slots-total-7" type="text" value=""><input id="spell-slots-used-7" type="text" value="" class="transient"><div id="spell-list-7"><div><input id="spell-7-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-1-prepared"></label><input id="spell-7-1-name" type="text" value=""><br><input id="spell-7-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-2-prepared"></label><input id="spell-7-2-name" type="text" value=""><br><input id="spell-7-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-3-prepared"></label><input id="spell-7-3-name" type="text" value=""><br><input id="spell-7-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-4-prepared"></label><input id="spell-7-4-name" type="text" value=""><br><input id="spell-7-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-5-prepared"></label><input id="spell-7-5-name" type="text" value=""><br><input id="spell-7-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-6-prepared"></label><input id="spell-7-6-name" type="text" value=""><br><input id="spell-7-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-7-prepared"></label><input id="spell-7-7-name" type="text" value=""><br><input id="spell-7-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-8-prepared"></label><input id="spell-7-8-name" type="text" value=""><br><input id="spell-7-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-9-prepared"></label><input id="spell-7-9-name" type="text" value=""></div><div><input id="spell-7-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-10-prepared"></label><input id="spell-7-10-name" type="text" value=""><br><input id="spell-7-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-11-prepared"></label><input id="spell-7-11-name" type="text" value=""><br><input id="spell-7-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-12-prepared"></label><input id="spell-7-12-name" type="text" value=""><br><input id="spell-7-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-13-prepared"></label><input id="spell-7-13-name" type="text" value=""><br><input id="spell-7-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-14-prepared"></label><input id="spell-7-14-name" type="text" value=""><br><input id="spell-7-15-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-15-prepared"></label><input id="spell-7-15-name" type="text" value=""><br><input id="spell-7-16-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-16-prepared"></label><input id="spell-7-16-name" type="text" value=""><br><input id="spell-7-17-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-17-prepared"></label><input id="spell-7-17-name" type="text" value=""><br><input id="spell-7-18-prepared" type="checkbox" class="radio" value="1"><label for="spell-7-18-prepared"></label><input id="spell-7-18-name" type="text" value=""><br></div></div></div><div id="spells-level-8"><input id="spell-slots-total-8" type="text" value=""><input id="spell-slots-used-8" type="text" value="" class="transient"><div id="spell-list-8"><div><input id="spell-8-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-1-prepared"></label><input id="spell-8-1-name" type="text" value=""><br><input id="spell-8-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-2-prepared"></label><input id="spell-8-2-name" type="text" value=""><br><input id="spell-8-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-3-prepared"></label><input id="spell-8-3-name" type="text" value=""><br><input id="spell-8-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-4-prepared"></label><input id="spell-8-4-name" type="text" value=""><br><input id="spell-8-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-5-prepared"></label><input id="spell-8-5-name" type="text" value=""><br><input id="spell-8-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-6-prepared"></label><input id="spell-8-6-name" type="text" value=""><br><input id="spell-8-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-7-prepared"></label><input id="spell-8-7-name" type="text" value=""></div><div><input id="spell-8-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-8-prepared"></label><input id="spell-8-8-name" type="text" value=""><br><input id="spell-8-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-9-prepared"></label><input id="spell-8-9-name" type="text" value=""><br><input id="spell-8-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-10-prepared"></label><input id="spell-8-10-name" type="text" value=""><br><input id="spell-8-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-11-prepared"></label><input id="spell-8-11-name" type="text" value=""><br><input id="spell-8-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-12-prepared"></label><input id="spell-8-12-name" type="text" value=""><br><input id="spell-8-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-13-prepared"></label><input id="spell-8-13-name" type="text" value=""><br><input id="spell-8-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-8-14-prepared"></label><input id="spell-8-14-name" type="text" value=""><br></div></div></div><div id="spells-level-9"><input id="spell-slots-total-9" type="text" value=""><input id="spell-slots-used-9" type="text" value="" class="transient"><div id="spell-list-9"><div><input id="spell-9-1-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-1-prepared"></label><input id="spell-9-1-name" type="text" value=""><br><input id="spell-9-2-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-2-prepared"></label><input id="spell-9-2-name" type="text" value=""><br><input id="spell-9-3-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-3-prepared"></label><input id="spell-9-3-name" type="text" value=""><br><input id="spell-9-4-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-4-prepared"></label><input id="spell-9-4-name" type="text" value=""><br><input id="spell-9-5-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-5-prepared"></label><input id="spell-9-5-name" type="text" value=""><br><input id="spell-9-6-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-6-prepared"></label><input id="spell-9-6-name" type="text" value=""><br><input id="spell-9-7-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-7-prepared"></label><input id="spell-9-7-name" type="text" value=""></div><div><input id="spell-9-8-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-8-prepared"></label><input id="spell-9-8-name" type="text" value=""><br><input id="spell-9-9-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-9-prepared"></label><input id="spell-9-9-name" type="text" value=""><br><input id="spell-9-10-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-10-prepared"></label><input id="spell-9-10-name" type="text" value=""><br><input id="spell-9-11-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-11-prepared"></label><input id="spell-9-11-name" type="text" value=""><br><input id="spell-9-12-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-12-prepared"></label><input id="spell-9-12-name" type="text" value=""><br><input id="spell-9-13-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-13-prepared"></label><input id="spell-9-13-name" type="text" value=""><br><input id="spell-9-14-prepared" type="checkbox" class="radio" value="1"><label for="spell-9-14-prepared"></label><input id="spell-9-14-name" type="text" value=""><br></div></div></div>		</div>
+
+<div id="page-notes-1" class=""><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-1-1"></textarea><textarea id="page-notes-1-2"></textarea><textarea id="page-notes-1-3"></textarea><textarea id="page-notes-1-4"></textarea></div></div><div id="page-notes-2" class=""><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-2-1"></textarea><textarea id="page-notes-2-2"></textarea><textarea id="page-notes-2-3"></textarea><textarea id="page-notes-2-4"></textarea></div></div><div id="page-notes-3"><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-3-1"></textarea><textarea id="page-notes-3-2"></textarea><textarea id="page-notes-3-3"></textarea><textarea id="page-notes-3-4"></textarea></div></div><div id="page-notes-4"><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-4-1"></textarea><textarea id="page-notes-4-2"></textarea><textarea id="page-notes-4-3"></textarea><textarea id="page-notes-4-4"></textarea></div></div><div id="page-notes-5"><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-5-1"></textarea><textarea id="page-notes-5-2"></textarea><textarea id="page-notes-5-3"></textarea><textarea id="page-notes-5-4"></textarea></div></div><div id="page-notes-6"><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-6-1"></textarea><textarea id="page-notes-6-2"></textarea><textarea id="page-notes-6-3"></textarea><textarea id="page-notes-6-4"></textarea></div></div><div id="page-notes-7"><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-7-1"></textarea><textarea id="page-notes-7-2"></textarea><textarea id="page-notes-7-3"></textarea><textarea id="page-notes-7-4"></textarea></div></div><div id="page-notes-8"><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-8-1"></textarea><textarea id="page-notes-8-2"></textarea><textarea id="page-notes-8-3"></textarea><textarea id="page-notes-8-4"></textarea></div></div><div id="page-notes-9"><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-9-1"></textarea><textarea id="page-notes-9-2"></textarea><textarea id="page-notes-9-3"></textarea><textarea id="page-notes-9-4"></textarea></div></div><div id="page-notes-10"><input class="sheetCode pseudodisabled clickable" title="Click to copy your sheet URL to the clipboard"><div class="notes"><textarea id="page-notes-10-1"></textarea><textarea id="page-notes-10-2"></textarea><textarea id="page-notes-10-3"></textarea><textarea id="page-notes-10-4"></textarea></div></div>
+		<div id="ribbon" class="yellow"></div>
+		<script src="{{ url_for('static', filename = 'util.js') }}"></script>
+			<script>
+		if (!util.isSecure) {
+							util.goSecure();
+					}
+	</script>
+		<script>
+			var sheet = {
+					code: null,
+				randomCode: '{{ sheet_code }}',
+					data: {},
+					readOnly: false,
+					psSelect: false,
+					fieldList: {
+						'page-1': {
+							'string': [
+								'name', 'class', 'race', 'background', 'alignment',
+								'player', 'experience', 'faction', 'dci-number',
+								'proficiencyBonus',
+								'STR-mod', 'DEX-mod', 'CON-mod', 'INT-mod', 'WIS-mod', 'CHA-mod',
+								'STR-save', 'DEX-save', 'CON-save',
+								'INT-save', 'WIS-save', 'CHA-save',
+								'acrobatics', 'animalHandling', 'arcana', 'athletics',
+								'deception', 'history', 'insight', 'intimidation',
+								'investigation', 'medicine', 'nature', 'perception',
+								'performance', 'persuasion', 'religion',
+								'sleightOfHand', 'stealth', 'survival',
+								'perception-passive', 'proficiencies',
+								'armorClass', 'armorClassAlt', 'initiative', 'speed', 'HP-max',
+								'HP-current', 'HP-temp', 'hitDice-total', 'hitDice-type',
+								'attack-1-name', 'attack-1-bonus', 'attack-1-damage',
+								'attack-2-name', 'attack-2-bonus', 'attack-2-damage',
+								'attack-3-name', 'attack-3-bonus', 'attack-3-damage',
+								'attack-4-name', 'attack-4-bonus', 'attack-4-damage',
+								'attack-5-name', 'attack-5-bonus', 'attack-5-damage',
+								'attack-6-name', 'attack-6-bonus', 'attack-6-damage',
+								'more-attacks', 'coins-copper', 'coins-silver',
+								'coins-electrum', 'coins-gold', 'coins-platinum',
+								'equipment-primary', 'equipment-secondary',
+								'equipment-tertiary',
+								'personality', 'ideals', 'bonds', 'flaws', 'features'
+							],
+							'number': [
+								'inspirationNum', 'STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'
+							],
+							'boolean': [
+								'inspiration',
+								'STR-save-prof', 'DEX-save-prof', 'CON-save-prof',
+								'INT-save-prof', 'WIS-save-prof', 'CHA-save-prof',
+								'acrobatics-prof',
+								'animalHandling-prof', 'arcana-prof', 'athletics-prof',
+								'deception-prof', 'history-prof', 'insight-prof',
+								'intimidation-prof', 'investigation-prof',
+								'medicine-prof', 'nature-prof', 'perception-prof',
+								'performance-prof', 'persuasion-prof', 'religion-prof',
+								'sleightOfHand-prof', 'stealth-prof', 'survival-prof',
+								'death-save-1', 'death-save-2', 'death-save-3',
+								'death-fail-1', 'death-fail-2', 'death-fail-3'
+							]
+						},
+						'page-2': {
+							'string': [
+								'name-2', 'age', 'eyes', 'height',
+								'skin', 'weight', 'hair',
+								'backstory', 'organization-name',
+								'allies-primary', 'allies-secondary',
+								'allies-tertiary-1', 'allies-tertiary-2',
+								'more-features-1', 'more-features-2',
+								'treasure-1', 'treasure-2'
+							]
+						},
+						'page-3': {
+							'string': [
+								'spell-class', 'spell-ability',
+								'spell-save', 'spell-bonus'
+							]
+						}
+					}
+				};
+
+			dbug.pushLevel(0);
+			util.forEach({"string":["spell-0-1-name","spell-0-2-name","spell-0-3-name","spell-0-4-name","spell-0-5-name","spell-0-6-name","spell-0-7-name","spell-0-8-name","spell-0-9-name","spell-0-10-name","spell-0-11-name","spell-0-12-name","spell-0-13-name","spell-0-14-name","spell-0-15-name","spell-0-16-name","spell-slots-total-1","spell-slots-used-1","spell-1-1-name","spell-1-2-name","spell-1-3-name","spell-1-4-name","spell-1-5-name","spell-1-6-name","spell-1-7-name","spell-1-8-name","spell-1-9-name","spell-1-10-name","spell-1-11-name","spell-1-12-name","spell-1-13-name","spell-1-14-name","spell-1-15-name","spell-1-16-name","spell-1-17-name","spell-1-18-name","spell-1-19-name","spell-1-20-name","spell-1-21-name","spell-1-22-name","spell-1-23-name","spell-1-24-name","spell-1-25-name","spell-1-26-name","spell-slots-total-2","spell-slots-used-2","spell-2-1-name","spell-2-2-name","spell-2-3-name","spell-2-4-name","spell-2-5-name","spell-2-6-name","spell-2-7-name","spell-2-8-name","spell-2-9-name","spell-2-10-name","spell-2-11-name","spell-2-12-name","spell-2-13-name","spell-2-14-name","spell-2-15-name","spell-2-16-name","spell-2-17-name","spell-2-18-name","spell-2-19-name","spell-2-20-name","spell-2-21-name","spell-2-22-name","spell-2-23-name","spell-2-24-name","spell-2-25-name","spell-2-26-name","spell-slots-total-3","spell-slots-used-3","spell-3-1-name","spell-3-2-name","spell-3-3-name","spell-3-4-name","spell-3-5-name","spell-3-6-name","spell-3-7-name","spell-3-8-name","spell-3-9-name","spell-3-10-name","spell-3-11-name","spell-3-12-name","spell-3-13-name","spell-3-14-name","spell-3-15-name","spell-3-16-name","spell-3-17-name","spell-3-18-name","spell-3-19-name","spell-3-20-name","spell-3-21-name","spell-3-22-name","spell-3-23-name","spell-3-24-name","spell-3-25-name","spell-3-26-name","spell-slots-total-4","spell-slots-used-4","spell-4-1-name","spell-4-2-name","spell-4-3-name","spell-4-4-name","spell-4-5-name","spell-4-6-name","spell-4-7-name","spell-4-8-name","spell-4-9-name","spell-4-10-name","spell-4-11-name","spell-4-12-name","spell-4-13-name","spell-4-14-name","spell-4-15-name","spell-4-16-name","spell-4-17-name","spell-4-18-name","spell-4-19-name","spell-4-20-name","spell-4-21-name","spell-4-22-name","spell-4-23-name","spell-4-24-name","spell-4-25-name","spell-4-26-name","spell-slots-total-5","spell-slots-used-5","spell-5-1-name","spell-5-2-name","spell-5-3-name","spell-5-4-name","spell-5-5-name","spell-5-6-name","spell-5-7-name","spell-5-8-name","spell-5-9-name","spell-5-10-name","spell-5-11-name","spell-5-12-name","spell-5-13-name","spell-5-14-name","spell-5-15-name","spell-5-16-name","spell-5-17-name","spell-5-18-name","spell-slots-total-6","spell-slots-used-6","spell-6-1-name","spell-6-2-name","spell-6-3-name","spell-6-4-name","spell-6-5-name","spell-6-6-name","spell-6-7-name","spell-6-8-name","spell-6-9-name","spell-6-10-name","spell-6-11-name","spell-6-12-name","spell-6-13-name","spell-6-14-name","spell-6-15-name","spell-6-16-name","spell-6-17-name","spell-6-18-name","spell-slots-total-7","spell-slots-used-7","spell-7-1-name","spell-7-2-name","spell-7-3-name","spell-7-4-name","spell-7-5-name","spell-7-6-name","spell-7-7-name","spell-7-8-name","spell-7-9-name","spell-7-10-name","spell-7-11-name","spell-7-12-name","spell-7-13-name","spell-7-14-name","spell-7-15-name","spell-7-16-name","spell-7-17-name","spell-7-18-name","spell-slots-total-8","spell-slots-used-8","spell-8-1-name","spell-8-2-name","spell-8-3-name","spell-8-4-name","spell-8-5-name","spell-8-6-name","spell-8-7-name","spell-8-8-name","spell-8-9-name","spell-8-10-name","spell-8-11-name","spell-8-12-name","spell-8-13-name","spell-8-14-name","spell-slots-total-9","spell-slots-used-9","spell-9-1-name","spell-9-2-name","spell-9-3-name","spell-9-4-name","spell-9-5-name","spell-9-6-name","spell-9-7-name","spell-9-8-name","spell-9-9-name","spell-9-10-name","spell-9-11-name","spell-9-12-name","spell-9-13-name","spell-9-14-name"],"boolean":["spell-1-1-prepared","spell-1-2-prepared","spell-1-3-prepared","spell-1-4-prepared","spell-1-5-prepared","spell-1-6-prepared","spell-1-7-prepared","spell-1-8-prepared","spell-1-9-prepared","spell-1-10-prepared","spell-1-11-prepared","spell-1-12-prepared","spell-1-13-prepared","spell-1-14-prepared","spell-1-15-prepared","spell-1-16-prepared","spell-1-17-prepared","spell-1-18-prepared","spell-1-19-prepared","spell-1-20-prepared","spell-1-21-prepared","spell-1-22-prepared","spell-1-23-prepared","spell-1-24-prepared","spell-1-25-prepared","spell-1-26-prepared","spell-2-1-prepared","spell-2-2-prepared","spell-2-3-prepared","spell-2-4-prepared","spell-2-5-prepared","spell-2-6-prepared","spell-2-7-prepared","spell-2-8-prepared","spell-2-9-prepared","spell-2-10-prepared","spell-2-11-prepared","spell-2-12-prepared","spell-2-13-prepared","spell-2-14-prepared","spell-2-15-prepared","spell-2-16-prepared","spell-2-17-prepared","spell-2-18-prepared","spell-2-19-prepared","spell-2-20-prepared","spell-2-21-prepared","spell-2-22-prepared","spell-2-23-prepared","spell-2-24-prepared","spell-2-25-prepared","spell-2-26-prepared","spell-3-1-prepared","spell-3-2-prepared","spell-3-3-prepared","spell-3-4-prepared","spell-3-5-prepared","spell-3-6-prepared","spell-3-7-prepared","spell-3-8-prepared","spell-3-9-prepared","spell-3-10-prepared","spell-3-11-prepared","spell-3-12-prepared","spell-3-13-prepared","spell-3-14-prepared","spell-3-15-prepared","spell-3-16-prepared","spell-3-17-prepared","spell-3-18-prepared","spell-3-19-prepared","spell-3-20-prepared","spell-3-21-prepared","spell-3-22-prepared","spell-3-23-prepared","spell-3-24-prepared","spell-3-25-prepared","spell-3-26-prepared","spell-4-1-prepared","spell-4-2-prepared","spell-4-3-prepared","spell-4-4-prepared","spell-4-5-prepared","spell-4-6-prepared","spell-4-7-prepared","spell-4-8-prepared","spell-4-9-prepared","spell-4-10-prepared","spell-4-11-prepared","spell-4-12-prepared","spell-4-13-prepared","spell-4-14-prepared","spell-4-15-prepared","spell-4-16-prepared","spell-4-17-prepared","spell-4-18-prepared","spell-4-19-prepared","spell-4-20-prepared","spell-4-21-prepared","spell-4-22-prepared","spell-4-23-prepared","spell-4-24-prepared","spell-4-25-prepared","spell-4-26-prepared","spell-5-1-prepared","spell-5-2-prepared","spell-5-3-prepared","spell-5-4-prepared","spell-5-5-prepared","spell-5-6-prepared","spell-5-7-prepared","spell-5-8-prepared","spell-5-9-prepared","spell-5-10-prepared","spell-5-11-prepared","spell-5-12-prepared","spell-5-13-prepared","spell-5-14-prepared","spell-5-15-prepared","spell-5-16-prepared","spell-5-17-prepared","spell-5-18-prepared","spell-6-1-prepared","spell-6-2-prepared","spell-6-3-prepared","spell-6-4-prepared","spell-6-5-prepared","spell-6-6-prepared","spell-6-7-prepared","spell-6-8-prepared","spell-6-9-prepared","spell-6-10-prepared","spell-6-11-prepared","spell-6-12-prepared","spell-6-13-prepared","spell-6-14-prepared","spell-6-15-prepared","spell-6-16-prepared","spell-6-17-prepared","spell-6-18-prepared","spell-7-1-prepared","spell-7-2-prepared","spell-7-3-prepared","spell-7-4-prepared","spell-7-5-prepared","spell-7-6-prepared","spell-7-7-prepared","spell-7-8-prepared","spell-7-9-prepared","spell-7-10-prepared","spell-7-11-prepared","spell-7-12-prepared","spell-7-13-prepared","spell-7-14-prepared","spell-7-15-prepared","spell-7-16-prepared","spell-7-17-prepared","spell-7-18-prepared","spell-8-1-prepared","spell-8-2-prepared","spell-8-3-prepared","spell-8-4-prepared","spell-8-5-prepared","spell-8-6-prepared","spell-8-7-prepared","spell-8-8-prepared","spell-8-9-prepared","spell-8-10-prepared","spell-8-11-prepared","spell-8-12-prepared","spell-8-13-prepared","spell-8-14-prepared","spell-9-1-prepared","spell-9-2-prepared","spell-9-3-prepared","spell-9-4-prepared","spell-9-5-prepared","spell-9-6-prepared","spell-9-7-prepared","spell-9-8-prepared","spell-9-9-prepared","spell-9-10-prepared","spell-9-11-prepared","spell-9-12-prepared","spell-9-13-prepared","spell-9-14-prepared"]}, function (datatype, fields) {
+				if (!sheet.fieldList['page-3'][datatype])
+					sheet.fieldList['page-3'][datatype] = [];
+				[].push.apply(sheet.fieldList['page-3'][datatype], fields);
+			});
+			util.forEach({"page-notes-1":{"string":["page-notes-1-1","page-notes-1-2","page-notes-1-3","page-notes-1-4"]},"page-notes-2":{"string":["page-notes-2-1","page-notes-2-2","page-notes-2-3","page-notes-2-4"]},"page-notes-3":{"string":["page-notes-3-1","page-notes-3-2","page-notes-3-3","page-notes-3-4"]},"page-notes-4":{"string":["page-notes-4-1","page-notes-4-2","page-notes-4-3","page-notes-4-4"]},"page-notes-5":{"string":["page-notes-5-1","page-notes-5-2","page-notes-5-3","page-notes-5-4"]},"page-notes-6":{"string":["page-notes-6-1","page-notes-6-2","page-notes-6-3","page-notes-6-4"]},"page-notes-7":{"string":["page-notes-7-1","page-notes-7-2","page-notes-7-3","page-notes-7-4"]},"page-notes-8":{"string":["page-notes-8-1","page-notes-8-2","page-notes-8-3","page-notes-8-4"]},"page-notes-9":{"string":["page-notes-9-1","page-notes-9-2","page-notes-9-3","page-notes-9-4"]},"page-notes-10":{"string":["page-notes-10-1","page-notes-10-2","page-notes-10-3","page-notes-10-4"]}}, function (pageid, fields) {
+				sheet.fieldList[pageid] = fields;
+			});
+		</script>
+		<script src="{{ url_for('static', filename = 'sheet.js') }}"></script>
+	
+
+<div id="toast" class="no-print clickable" title="Click to dismiss"><i class="material-icons">info</i>There is nothing to save</div><button id="menu-open" title="Show/hide menu" class="no-print material-icons"></button><div id="ajaxMask" class=""><span data-mask-text="Getting a new code..."><span></span></span></div></body></html>

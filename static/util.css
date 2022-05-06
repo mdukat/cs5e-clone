@@ -1,0 +1,188 @@
+div#ajaxMask {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	margin: 0px;
+	padding: calc(50vh - 1em) 0px 0px;
+	font-size: calc(1.25vw + 1.25vh);
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.25);
+	border-radius: 0px;
+	z-index: 9900;
+}
+@media print { div#ajaxMask { display: none; } }
+div#ajaxMask:not(.shown) { display: none; }
+
+@keyframes ajaxFadeIn {
+	0% { opacity: 0; }
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}
+div#ajaxMask.shown { animation: ajaxFadeIn 0.8s ease-out 1 forwards; }
+
+div#ajaxMask > span {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	margin: 0px;
+	padding: 0.5em 0.75em;
+	color: white;
+	text-shadow: 0px 0px 0.5em black;
+	background-color: rgba(0, 0, 0, 0.25);
+	border-radius: 0.5em;
+}
+div#ajaxMask > span::after { content: attr(data-mask-text); }
+
+div#ajaxMask > span > span {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	display: inline-block;
+	margin: 0.25em 0.5em 0px 0px;
+	padding: 0px;
+	width: 1em;
+	height: 1em;
+	vertical-align: top;
+	transform-origin: center;
+}
+div#ajaxMask > span > span::before,
+div#ajaxMask > span > span::after {
+	content: '';
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	width: 1em;
+	height: 1em;
+	border-radius: 50%;
+	transform-origin: center;
+}
+div#ajaxMask > span > span::before { z-index: 9901; }
+div#ajaxMask > span > span::after { z-index: 9902; }
+
+div#ajaxMask.simple > span > span::before,
+div#ajaxMask.simple > span > span::after { border: 0.1em solid rgba(255, 255, 255, 0.5); }
+div#ajaxMask.simple > span > span::after { border-color: white transparent transparent; }
+
+div#ajaxMask.android-esque > span > span::before,
+div#ajaxMask.android-esque > span > span::after {
+	border-width: 0.1em;
+	border-style: solid;
+	border-color: white transparent transparent;
+}
+
+div#ajaxMask.pacman > span > span { margin-right: 1em; }
+div#ajaxMask.pacman > span::before {
+	content: '';
+	position: absolute;
+	top: 0.6em;
+	left: 0.6em;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	width: 0.3em;
+	height: 0.3em;
+	border-radius: 0.15em;
+	background-color: white;
+	transform-origin: center left;
+}
+div#ajaxMask.pacman > span > span::before,
+div#ajaxMask.pacman > span > span::after {
+	border-width: 0.5em;
+	border-style: solid;
+	border-color: yellow transparent yellow yellow;
+}
+div#ajaxMask.pacman > span > span::before { border-color: transparent yellow yellow transparent; }
+
+@keyframes ajaxSpin { to { transform: rotate(360deg); } }
+
+div#ajaxMask.simple.shown > span > span::after { animation: ajaxSpin 1s linear infinite; }
+
+@keyframes ajaxAndroidHead {
+	0%, 100%	{ transform: rotate(0deg); }
+	4.166%		{ transform: rotate(90deg); }
+	8.333%		{ transform: rotate(180deg); }
+	12.499%		{ transform: rotate(270deg); }
+		12.5%	{ transform: rotate(0deg); }
+	16.666%		{ transform: rotate(90deg); }
+	20.833%		{ transform: rotate(180deg); }
+	25%			{ transform: rotate(270deg); }
+	29.166%		{ transform: rotate(360deg); }
+	33.333%		{ transform: rotate(450deg); }
+	37.499%		{ transform: rotate(540deg); }
+		37.5%	{ transform: rotate(270deg); }
+	41.666%		{ transform: rotate(360deg); }
+	45.833%		{ transform: rotate(450deg); }
+	50%			{ transform: rotate(540deg); }
+	54.166%		{ transform: rotate(630deg); }
+	58.333%		{ transform: rotate(720deg); }
+	62.499%		{ transform: rotate(810deg); }
+		62.5%	{ transform: rotate(180deg); }
+	66.666%		{ transform: rotate(270deg); }
+	70.833%		{ transform: rotate(360deg); }
+	75%			{ transform: rotate(450deg); }
+	79.166%		{ transform: rotate(540deg); }
+	83.333%		{ transform: rotate(630deg); }
+	87.499%		{ transform: rotate(720deg); }
+		87.5%	{ transform: rotate(-270deg); }
+	91.666%		{ transform: rotate(-180deg); }
+	95.833%		{ transform: rotate(-90deg); }
+}
+@keyframes ajaxAndroidTail {
+	0%, 100%	{ border-color: white transparent transparent transparent; }
+	4.166%		{ border-color: white white transparent transparent; }
+	8.333%		{ border-color: white white white transparent; }
+	12.5%		{ border-color: transparent white white white; }
+	16.666%		{ border-color: transparent transparent white white; }
+	20.833%		{ border-color: transparent transparent transparent white; }
+	25%			{ border-color: transparent transparent transparent white; }
+	29.166%		{ border-color: white transparent transparent white; }
+	33.333%		{ border-color: white white transparent white; }
+	37.5%		{ border-color: white white white transparent; }
+	41.666%		{ border-color: transparent white white transparent; }
+	45.833%		{ border-color: transparent transparent white transparent; }
+	50%			{ border-color: transparent transparent white transparent; }
+	54.166%		{ border-color: transparent transparent white white; }
+	58.333%		{ border-color: white transparent white white; }
+	62.5%		{ border-color: white white transparent white; }
+	66.666%		{ border-color: white white transparent transparent; }
+	70.833%		{ border-color: transparent white transparent transparent; }
+	75%			{ border-color: transparent white transparent transparent; }
+	79.166%		{ border-color: transparent white white transparent; }
+	83.333%		{ border-color: transparent white white white; }
+	87.5%		{ border-color: white transparent white white; }
+	91.666%		{ border-color: white transparent transparent white; }
+	95.833%		{ border-color: white transparent transparent transparent; }
+}
+
+div#ajaxMask.android-esque.shown > span > span { animation: ajaxSpin 1s linear infinite; }
+div#ajaxMask.android-esque.shown > span > span::before { animation: ajaxAndroidTail 6s step-end infinite; }
+div#ajaxMask.android-esque.shown > span > span::after { animation: ajaxAndroidHead 6s linear infinite; }
+
+@keyframes ajaxPacmanDot {
+	0% {
+		opacity: 0;
+		transform: translate(1.5em, 0.5em);
+	}
+	25% {
+		opacity: 1;
+		transform: translate(1.25em, 0.5em);
+	}
+	100% { transform: translate(0.5em, 0.5em); }
+}
+@keyframes ajaxPacmanTop {
+	from { transform: rotate(45deg); }
+	to { transform: rotate(0deg); }
+}
+@keyframes ajaxPacmanBottom {
+	from { transform: rotate(45deg); }
+	to { transform: rotate(90deg); }
+}
+
+div#ajaxMask.pacman.shown > span::before { animation: ajaxPacmanDot 0.5s linear infinite; }
+div#ajaxMask.pacman.shown > span > span::before { animation: ajaxPacmanBottom 0.25s ease-in infinite alternate; }
+div#ajaxMask.pacman.shown > span > span::after { animation: ajaxPacmanTop 0.25s ease-in infinite alternate; }
